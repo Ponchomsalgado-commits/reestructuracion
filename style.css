@@ -28,7 +28,6 @@
   --radius-full: 999px;
 }
 
-/* ── Reset ── */
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
@@ -201,9 +200,9 @@ h1, h2, h3 {
 }
 
 .btn-outline {
-  background: transparent;
-  color: var(--blue-dark);
-  border: 2.5px solid var(--blue-dark);
+  background: rgb(123, 210, 182);
+  color: white
+  
 }
 
 .btn-sm {
@@ -220,7 +219,7 @@ h1, h2, h3 {
   margin-top: 16px;
 }
 
-/* ── Menu (index/materias/menu pages) ── */
+/* ── Menu (index/materias/menu) ── */
 .main-menu {
   display: flex;
   flex-direction: column;
@@ -242,7 +241,7 @@ h1, h2, h3 {
   max-width: 340px;
 }
 
-/* ── Forms / Cuestionario ── */
+/* ── Cuestionario ── */
 .form-card {
   background: var(--white);
   border-radius: var(--radius-lg);
@@ -297,7 +296,7 @@ h1, h2, h3 {
   box-shadow: 0 0 0 3px rgba(0,180,216,0.2);
 }
 
-/* ── Quiz / Ejercicio ── */
+/* ── Quiz ── */
 .quiz-wrapper {
   width: 100%;
   max-width: 600px;
@@ -445,7 +444,7 @@ h1, h2, h3 {
   font-size: 1rem;
 }
 
-/* ── Tables (actividades) ── */
+/* ── Tablas (actividades) ── */
 .table-wrapper {
   width: 100%;
   overflow-x: auto;
@@ -569,7 +568,7 @@ h1, h2, h3 {
 .insti-lista {
   background: #f8fdff;
   padding: 20px 16px;
-  max-height: 340px;
+  max-height: 400px;
   overflow-y: auto;
   border-bottom: 3px solid var(--blue-mid);
 }
@@ -821,4 +820,19 @@ h1, h2, h3 {
   .tabla-actividades th, .tabla-actividades td {
     padding: 16px 18px;
   }
+}
+
+@media (max-width: 768px) {
+    .insti-mapa {
+        display: none;
+        height: 400px;
+    }
+
+    .mostrar-mapa .insti-mapa {
+        display: block;
+    }
+
+    .mostrar-mapa .insti-lista {
+        display: none;
+    }
 }

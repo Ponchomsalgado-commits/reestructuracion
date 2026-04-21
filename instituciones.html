@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>InkluEdu — Instituciones</title>
+  <link rel="shortcut icon" href="img/InkluEdu.svg">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+</head>
+
+<body>
+
+  <header class="site-header">
+    <h1>Instituciones 🏥</h1>
+    <p>Lugares de apoyo especializado en TDAH</p>
+  </header>
+
+  <main class="page-content">
+
+    <div class="card" style="padding: 0; overflow: hidden;">
+      <div class="insti-layout">
+
+        <!-- Lista de instituciones -->
+        <div class="insti-lista">
+          <h2>Lugares de Apoyo</h2>
+          <p>Encuentra instituciones especializadas en TDAH cerca de tu ubicación.</p>
+
+          <div class="info-Insti">
+            <strong>📍 CEPI</strong>
+            <b>Centro de Entrenamiento Psicológico Infantil</b>
+            <div class="insti-btns">
+              <button class="btn-insti" onclick="mover(32.65399974740721, -115.43899427116466, 17)">📌 Ubicar</button>
+              <a href="https://mexicali.centroscepi.com/" target="_blank" class="btn-insti">🌐 Sitio web</a>
+            </div>
+          </div>
+
+          <div class="info-Insti">
+            <strong>📍 CONCENTRA</strong>
+            <b>Especialistas en TDAH y Problemas de Aprendizaje</b>
+            <div class="insti-btns">
+              <button class="btn-insti" onclick="mover(32.65880982581581, -115.42371566434687, 17)">📌 Ubicar</button>
+              <a href="https://www.concentrapsicologiainfantil.com/" target="_blank" class="btn-insti">🌐 Sitio web</a>
+            </div>
+          </div>
+
+          <div class="info-Insti">
+            <strong>📍 CRIIE</strong>
+            <b>Centro de Recursos e Información para la Integración Educativa</b>
+            <div class="insti-btns">
+              <button class="btn-insti" onclick="mover(32.64438784183456, -115.43569309133534, 17)">📌 Ubicar</button>
+              <a href="https://www.facebook.com/profile.php?id=100083533560447" target="_blank" class="btn-insti">🌐 Sitio web</a>
+            </div>
+          </div>
+
+          <div class="info-Insti">
+            <strong>📍 Inclúyeme</strong>
+            <b>Centro de Atención a la Necesidad Educativa Especial</b>
+            <div class="insti-btns">
+              <button class="btn-insti" onclick="mover(32.63039846065383, -115.42544931832401, 17)">📌 Ubicar</button>
+              <a href="https://www.facebook.com/incluyememxli" target="_blank" class="btn-insti">🌐 Sitio web</a>
+            </div>
+          </div>
+
+          <div class="info-Insti">
+            <strong>📍 IPEBC</strong>
+            <b>Instituto de Psiquiatría del Estado de Baja California</b>
+            <div class="insti-btns">
+              <button class="btn-insti" onclick="mover(32.599976928986884, -115.3848110471608, 17)">📌 Ubicar</button>
+              <a href="https://ipebc.gob.mx/" target="_blank" class="btn-insti">🌐 Sitio web</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mapa -->
+        <div class="insti-mapa">
+          <div id="mapa"></div>
+        </div>
+
+      </div>
+    </div>
+
+    <button class="btn btn-outline" onclick="window.location.href='maestro.html'" style="margin-top: 16px;">← Regresar</button>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-grid">
+      <div>
+        <img src="img/InkluEdu.svg" alt="Logo InkluEdu">
+      </div>
+      <div>
+        <strong>Proyecto desarrollado por:</strong>
+        <p>Caldera Zazueta Brandon Enrique · Chavez Rios Mario Alberto · Cuadras Lopez Ernesto Alonso</p>
+      </div>
+      <div>
+        <strong>Asesora:</strong>
+        <p>Salinas Montoya Gabriela</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script src="mapa.js"></script>
+
+</body>
+</html>

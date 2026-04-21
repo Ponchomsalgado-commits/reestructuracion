@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>InkluEdu — Registro</title>
+  <link rel="shortcut icon" href="img/InkluEdu.svg">
+  <link rel="stylesheet" href="style.css">
+  <script defer src="validar.js"></script>
+</head>
+
+<body>
+
+  <header class="site-header">
+    <h1>InkluEdu</h1>
+    <p>Cuestionario de registro</p>
+  </header>
+
+  <main class="page-content">
+    <div class="form-card">
+      <h2>¡Cuéntanos sobre ti! 👋</h2>
+
+      <form action="guardar.php" method="POST">
+
+        <div class="form-group">
+          <label for="nombre">Nombre completo</label>
+          <input type="text" name="nombre" id="nombre" placeholder="Tu nombre completo" required>
+        </div>
+
+        <div class="form-group">
+          <label for="ciudad">Ciudad</label>
+          <input type="text" name="ciudad" id="ciudad" placeholder="Tu ciudad" required>
+        </div>
+
+        <div class="form-group">
+          <label for="edad">Edad</label>
+          <input type="number" name="edad" id="edad" placeholder="Tu edad" required>
+        </div>
+
+        <div class="form-group">
+          <label for="sexo">Sexo</label>
+          <select name="sexo" id="sexo" required>
+            <option value="">Seleccione...</option>
+            <option>Hombre</option>
+            <option>Mujer</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="celular">Celular</label>
+          <input type="tel" name="celular" id="celular" placeholder="Tu número de celular" required>
+        </div>
+
+        <div class="form-group">
+          <label for="lugar_nacimiento">Lugar de nacimiento</label>
+          <input type="text" name="lugar_nacimiento" id="lugar_nacimiento" placeholder="Ciudad o estado" required>
+        </div>
+
+        <div class="form-group">
+          <label for="fecha_nacimiento">Fecha de nacimiento</label>
+          <input type="date" name="fecha_nacimiento" id="fecha_nacimiento" required>
+        </div>
+
+        <div class="form-group">
+          <label for="grado_estudio">Grado máximo de estudios</label>
+          <select name="grado_estudio" id="grado_estudio" required>
+            <option value="">Seleccione...</option>
+            <option>Primaria</option>
+            <option>Secundaria</option>
+            <option>Preparatoria</option>
+            <option>Universidad</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="comentarios">Comentarios (opcional)</label>
+          <textarea name="comentarios" id="comentarios" maxlength="500" rows="3" placeholder="Algo que quieras decirnos..."></textarea>
+        </div>
+
+        <div class="btn-row">
+          <button type="button" onclick="Invitado()" class="btn btn-outline">
+            👤 Soy invitado
+          </button>
+          <button type="submit" class="btn btn-green">
+            Enviar ✓
+          </button>
+        </div>
+
+        <div style="margin-top: 12px;">
+          <button type="button" onclick="window.location.href='index.html'" class="btn btn-outline">
+            ← Salir
+          </button>
+        </div>
+
+      </form>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-grid">
+      <div>
+        <img src="img/InkluEdu.svg" alt="Logo InkluEdu">
+      </div>
+      <div>
+        <strong>Proyecto desarrollado por:</strong>
+        <p>Caldera Zazueta Brandon Enrique · Chavez Rios Mario Alberto · Cuadras Lopez Ernesto Alonso</p>
+      </div>
+      <div>
+        <strong>Asesora:</strong>
+        <p>Salinas Montoya Gabriela</p>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

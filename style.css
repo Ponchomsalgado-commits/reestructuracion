@@ -1,0 +1,824 @@
+/* ===================================
+   InkluEdu — Design System
+   Mobile-First | Base Styles
+   =================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka+One&display=swap');
+
+/* ── Variables ── */
+:root {
+  --blue-dark:   #0077b6;
+  --blue-mid:    #00b4d8;
+  --blue-light:  #90e0ef;
+  --green:       #06d6a0;
+  --green-dark:  #049e78;
+  --yellow:      #ffd166;
+  --yellow-dark: #f4a261;
+  --navy:        #023e8a;
+  --white:       #ffffff;
+  --bg:          #f0faff;
+  --text:        #02415a;
+  --text-light:  #4a7a94;
+  --shadow-sm:   0 2px 8px rgba(0,119,182,0.12);
+  --shadow-md:   0 6px 20px rgba(0,119,182,0.18);
+  --shadow-lg:   0 12px 40px rgba(0,119,182,0.22);
+  --radius-sm:   12px;
+  --radius-md:   20px;
+  --radius-lg:   28px;
+  --radius-full: 999px;
+}
+
+/* ── Reset ── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Nunito', sans-serif;
+  background-color: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background-image: url('img/fondo.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0.35;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+a {
+  color: var(--blue-dark);
+  font-weight: 700;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+a:hover {
+  color: var(--navy);
+  text-decoration: underline;
+}
+
+h1, h2, h3 {
+  font-family: 'Fredoka One', cursive;
+  font-weight: 400;
+  line-height: 1.2;
+}
+
+/* ── Header ── */
+.site-header {
+  background: linear-gradient(135deg, var(--blue-dark), var(--blue-mid));
+  color: var(--white);
+  padding: 20px 16px;
+  text-align: center;
+  box-shadow: var(--shadow-md);
+  position: relative;
+  overflow: hidden;
+}
+
+.site-header::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 20px;
+  background: var(--bg);
+  border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+}
+
+.site-header h1 {
+  font-size: clamp(1.6rem, 6vw, 2.8rem);
+  letter-spacing: 0.5px;
+}
+
+.site-header p {
+  font-size: clamp(0.85rem, 3.5vw, 1rem);
+  opacity: 0.9;
+  margin-top: 6px;
+  font-weight: 600;
+}
+
+/* ── Main content wrapper ── */
+.page-content {
+  flex: 1;
+  width: 100%;
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 24px 16px 32px;
+}
+
+/* ── Cards ── */
+.card {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  padding: 24px 20px;
+  margin-bottom: 20px;
+}
+
+.card h2 {
+  font-size: clamp(1.3rem, 5vw, 1.8rem);
+  color: var(--blue-dark);
+  margin-bottom: 14px;
+  text-align: center;
+}
+
+.card h3 {
+  font-size: clamp(1.1rem, 4vw, 1.4rem);
+  color: var(--navy);
+  margin: 16px 0 8px;
+}
+
+.card p {
+  font-size: clamp(0.95rem, 3.5vw, 1.1rem);
+  line-height: 1.7;
+  color: var(--text);
+}
+
+/* ── Buttons ── */
+.btn {
+  display: block;
+  width: 100%;
+  padding: 16px 20px;
+  border: none;
+  border-radius: var(--radius-full);
+  font-family: 'Fredoka One', cursive;
+  font-size: clamp(1.1rem, 4.5vw, 1.4rem);
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  transition: transform 0.18s, box-shadow 0.18s, filter 0.18s;
+  box-shadow: var(--shadow-sm);
+}
+
+.btn:hover, .btn:focus {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: var(--shadow-md);
+  filter: brightness(1.06);
+  text-decoration: none;
+}
+
+.btn:active {
+  transform: translateY(0) scale(0.98);
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--blue-dark), var(--blue-mid));
+  color: var(--white);
+}
+
+.btn-green {
+  background: linear-gradient(135deg, var(--green), #20c997);
+  color: var(--white);
+}
+
+.btn-yellow {
+  background: linear-gradient(135deg, var(--yellow), var(--yellow-dark));
+  color: var(--text);
+}
+
+.btn-outline {
+  background: transparent;
+  color: var(--blue-dark);
+  border: 2.5px solid var(--blue-dark);
+}
+
+.btn-sm {
+  padding: 10px 18px;
+  font-size: 0.95rem;
+  width: auto;
+  display: inline-block;
+}
+
+.btn-row {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+/* ── Menu (index/materias/menu pages) ── */
+.main-menu {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 32px 16px;
+  flex: 1;
+}
+
+.main-menu .menu-title {
+  font-family: 'Fredoka One', cursive;
+  font-size: clamp(1.1rem, 4vw, 1.4rem);
+  color: var(--blue-dark);
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+.main-menu .btn {
+  max-width: 340px;
+}
+
+/* ── Forms / Cuestionario ── */
+.form-card {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  padding: 28px 20px;
+  width: 100%;
+  max-width: 500px;
+  margin: 24px auto;
+}
+
+.form-card h2 {
+  font-family: 'Fredoka One', cursive;
+  font-size: clamp(1.4rem, 5.5vw, 1.9rem);
+  color: var(--blue-dark);
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.form-group {
+  margin-bottom: 18px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: 800;
+  font-size: 0.95rem;
+  color: var(--navy);
+  margin-bottom: 6px;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 13px 16px;
+  border: 2.5px solid var(--blue-light);
+  border-radius: var(--radius-md);
+  font-family: 'Nunito', sans-serif;
+  font-size: 1rem;
+  color: var(--text);
+  background: #f8fdff;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  resize: vertical;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--blue-mid);
+  box-shadow: 0 0 0 3px rgba(0,180,216,0.2);
+}
+
+/* ── Quiz / Ejercicio ── */
+.quiz-wrapper {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 0 16px 32px;
+}
+
+.progress-ring-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 20px auto 8px;
+}
+
+.progreso-container {
+  width: 100px;
+  height: 100px;
+  position: relative;
+  margin: 0 auto;
+}
+
+.progreso-circulo {
+  width: 100px;
+  height: 100px;
+}
+
+.fondo {
+  fill: none;
+  stroke: #dce8f0;
+  stroke-width: 10;
+}
+
+.avance {
+  fill: none;
+  stroke: var(--green);
+  stroke-width: 10;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.4s ease;
+}
+
+.progreso-texto {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: 'Fredoka One', cursive;
+  font-size: 1.2rem;
+  color: var(--text);
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.progress-bar-wrapper {
+  width: 90%;
+  max-width: 400px;
+  margin: 12px auto 4px;
+}
+
+.progress-bar-track {
+  height: 12px;
+  background: #dce8f0;
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--green), var(--blue-mid));
+  border-radius: var(--radius-full);
+  transition: width 0.5s ease;
+  width: 0%;
+}
+
+.progress-label {
+  text-align: center;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--text-light);
+  margin-top: 6px;
+}
+
+.ejercicio-card {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  padding: 24px 18px;
+  margin-top: 16px;
+}
+
+#pregunta {
+  font-family: 'Fredoka One', cursive;
+  font-size: clamp(1.1rem, 4.5vw, 1.5rem);
+  color: var(--blue-dark);
+  text-align: center;
+  margin-bottom: 20px;
+  line-height: 1.4;
+}
+
+.opcion {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 14px 16px;
+  margin: 10px 0;
+  background: var(--yellow);
+  border: none;
+  border-radius: var(--radius-md);
+  font-family: 'Nunito', sans-serif;
+  font-size: clamp(0.95rem, 3.5vw, 1.1rem);
+  font-weight: 700;
+  color: var(--text);
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.18s, transform 0.15s;
+  box-shadow: var(--shadow-sm);
+}
+
+.opcion:hover {
+  background: var(--yellow-dark);
+  color: var(--white);
+  transform: translateX(4px);
+}
+
+#mensaje, #resultado {
+  text-align: center;
+  font-size: 1.1rem;
+  font-weight: 800;
+  margin-top: 16px;
+  min-height: 28px;
+}
+
+.quiz-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.quiz-actions .btn {
+  width: auto;
+  flex: 1 1 140px;
+  max-width: 200px;
+  padding: 12px 16px;
+  font-size: 1rem;
+}
+
+/* ── Tables (actividades) ── */
+.table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+  margin-bottom: 20px;
+}
+
+.tabla-actividades {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: clamp(0.85rem, 3vw, 1rem);
+  background: var(--white);
+}
+
+.tabla-actividades th {
+  background: var(--blue-dark);
+  color: var(--white);
+  padding: 14px 12px;
+  font-family: 'Fredoka One', cursive;
+  font-size: clamp(1rem, 3.5vw, 1.2rem);
+  font-weight: 400;
+  text-align: left;
+}
+
+.tabla-actividades th:first-child { border-radius: var(--radius-sm) 0 0 0; }
+.tabla-actividades th:last-child  { border-radius: 0 var(--radius-sm) 0 0; }
+
+.tabla-actividades td {
+  padding: 12px;
+  border-bottom: 1px solid #e0f0fa;
+  color: var(--text);
+  vertical-align: top;
+  line-height: 1.5;
+}
+
+.tabla-actividades tr:last-child td {
+  border-bottom: none;
+}
+
+.tabla-actividades tr:nth-child(even) td {
+  background: #f4fbff;
+}
+
+.table-header-full {
+  background: var(--navy) !important;
+  font-size: clamp(1rem, 4vw, 1.3rem) !important;
+  text-align: center !important;
+}
+
+/* ── Texto con imagen ── */
+.texto-img {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.texto-img img {
+  width: 100%;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+}
+
+.texto-img p {
+  font-size: clamp(0.95rem, 3.5vw, 1.1rem);
+  line-height: 1.7;
+}
+
+/* ── Lista ── */
+.lista {
+  padding-left: 20px;
+}
+
+.lista li {
+  font-size: clamp(0.9rem, 3.5vw, 1.05rem);
+  line-height: 1.6;
+  margin-bottom: 12px;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+.lista li a {
+  display: inline-block;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  vertical-align: bottom;
+}
+
+/* ── Video ── */
+.video-contenedor {
+  position: relative;
+  width: 100%;
+  padding-bottom: 56.25%;
+  height: 0;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+}
+
+.video-contenedor iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+/* ── Instituciones — mapa ── */
+.insti-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+}
+
+.insti-lista {
+  background: #f8fdff;
+  padding: 20px 16px;
+  max-height: 340px;
+  overflow-y: auto;
+  border-bottom: 3px solid var(--blue-mid);
+}
+
+.insti-lista h2 {
+  font-family: 'Fredoka One', cursive;
+  color: var(--blue-dark);
+  font-size: 1.4rem;
+  margin-bottom: 6px;
+}
+
+.insti-lista p {
+  font-size: 0.9rem;
+  color: var(--text-light);
+  margin-bottom: 14px;
+}
+
+.insti-mapa {
+  height: 300px;
+  position: relative;
+}
+
+#mapa {
+  width: 100%;
+  height: 100%;
+}
+
+.info-Insti {
+  background: var(--white);
+  border: 1.5px solid #d0eaf8;
+  border-radius: var(--radius-md);
+  padding: 14px;
+  margin-bottom: 12px;
+  box-shadow: var(--shadow-sm);
+}
+
+.info-Insti strong {
+  display: block;
+  color: var(--navy);
+  font-size: 1rem;
+  margin-bottom: 4px;
+}
+
+.info-Insti b {
+  font-size: 0.85rem;
+  color: var(--text-light);
+  font-weight: 600;
+}
+
+.insti-btns {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+
+.btn-insti {
+  padding: 8px 14px;
+  font-size: 0.82rem;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 800;
+  background: linear-gradient(135deg, var(--green), #20c997);
+  color: var(--white);
+  border: none;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  text-decoration: none;
+  transition: filter 0.2s, transform 0.15s;
+  box-shadow: var(--shadow-sm);
+  display: inline-block;
+  text-align: center;
+}
+
+.btn-insti:hover {
+  filter: brightness(1.08);
+  transform: translateY(-1px);
+  text-decoration: none;
+  color: var(--white);
+}
+
+/* ── Footer ── */
+.site-footer {
+  background: linear-gradient(135deg, var(--navy), var(--blue-dark));
+  color: var(--white);
+  padding: 24px 16px 20px;
+  margin-top: auto;
+  border-radius: 20px 20px 0 0;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.footer-grid img {
+  margin: 0 auto;
+  height: 52px;
+  width: auto;
+}
+
+.footer-grid p {
+  font-size: 0.82rem;
+  opacity: 0.88;
+  margin-top: 4px;
+  line-height: 1.5;
+}
+
+.footer-grid strong {
+  font-size: 0.9rem;
+}
+
+/* ── Canvas (math lienzo) ── */
+#lienzo {
+  width: 100%;
+  box-sizing: border-box;
+  text-align: center;
+  margin: 16px 0;
+  position: relative;
+}
+
+#lienzo canvas {
+  width: 100% !important;
+  max-width: 100%;
+  border-radius: var(--radius-md);
+  border: 2px solid #d0eaf8;
+  background: #fafeff;
+}
+
+/* ── Advertencia ── */
+#mensaje-advertencia {
+  color: #d9534f;
+  font-weight: 800;
+  margin-top: 16px;
+  font-size: 1rem;
+  text-align: center;
+}
+
+/* ══════════════════════════════════
+   TABLET (≥ 600px)
+   ══════════════════════════════════ */
+@media (min-width: 600px) {
+
+  .page-content {
+    padding: 32px 24px 40px;
+  }
+
+  .card {
+    padding: 30px 28px;
+  }
+
+  .form-card {
+    padding: 36px 32px;
+  }
+
+  .btn-row {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .btn-row .btn {
+    width: auto;
+    flex: 1 1 180px;
+    max-width: 260px;
+  }
+
+  .texto-img {
+    flex-direction: row;
+    align-items: center;
+    gap: 24px;
+  }
+
+  .texto-img img {
+    width: 38%;
+    flex-shrink: 0;
+  }
+
+  .insti-layout {
+    flex-direction: row;
+    height: 65vh;
+    min-height: 400px;
+  }
+
+  .insti-lista {
+    flex: 1;
+    max-height: none;
+    overflow-y: auto;
+    border-bottom: none;
+    border-right: 3px solid var(--blue-mid);
+  }
+
+  .insti-mapa {
+    flex: 2;
+    height: auto;
+  }
+
+  .footer-grid {
+    grid-template-columns: auto 1fr auto;
+    text-align: left;
+    align-items: center;
+  }
+
+  .footer-grid img {
+    margin: 0;
+  }
+}
+
+/* ══════════════════════════════════
+   DESKTOP (≥ 900px)
+   ══════════════════════════════════ */
+@media (min-width: 900px) {
+
+  .page-content {
+    max-width: 900px;
+    padding: 40px 32px 48px;
+  }
+
+  .quiz-wrapper {
+    max-width: 680px;
+  }
+
+  .site-header h1 {
+    font-size: 2.6rem;
+  }
+
+  .site-header p {
+    font-size: 1.05rem;
+  }
+
+  .card {
+    padding: 36px 40px;
+  }
+
+  .main-menu .btn {
+    max-width: 380px;
+    font-size: 1.5rem;
+    padding: 20px 28px;
+  }
+
+  .insti-layout {
+    height: 70vh;
+  }
+
+  .tabla-actividades th, .tabla-actividades td {
+    padding: 16px 18px;
+  }
+}

@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>InkluEdu — Historia 🏛️</title>
+  <link rel="shortcut icon" href="img/InkluEdu.svg">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .modo-card {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-md);
+      padding: 32px 24px 28px;
+      width: 100%;
+      max-width: 420px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .modo-icon {
+      font-size: 3.5rem;
+      line-height: 1;
+      margin-bottom: 12px;
+    }
+    .modo-card h2 {
+      font-family: 'Fredoka One', cursive;
+      font-size: clamp(1.3rem, 5vw, 1.8rem);
+      color: var(--blue-dark);
+      margin-bottom: 8px;
+    }
+    .modo-card > p {
+      color: var(--text-light);
+      font-size: 0.95rem;
+      margin-bottom: 28px;
+    }
+    .modo-opciones {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    /* ── Botón Quiz ── */
+    .modo-btn {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 18px 22px;
+      border-radius: var(--radius-md);
+      border: none;
+      cursor: pointer;
+      font-family: 'Fredoka One', cursive;
+      font-size: clamp(1.05rem, 3.8vw, 1.3rem);
+      color: var(--white);
+      text-align: left;
+      transition: transform 0.18s, box-shadow 0.18s, filter 0.18s;
+      box-shadow: var(--shadow-sm);
+      text-decoration: none;
+      width: 100%;
+    }
+    .modo-btn:hover {
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: var(--shadow-md);
+      filter: brightness(1.07);
+      color: var(--white);
+      text-decoration: none;
+    }
+    .modo-btn-quiz  { background: linear-gradient(135deg, var(--blue-dark), var(--blue-mid)); }
+    .modo-btn-icon  { font-size: 2rem; flex-shrink: 0; }
+    .modo-btn-texto { display: flex; flex-direction: column; }
+    .modo-btn-label { font-size: 1.15rem; }
+    .modo-btn-desc  {
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 600;
+      opacity: 0.88;
+      margin-top: 2px;
+    }
+
+    /* ── Tarjeta de juego ── */
+    .juego-card {
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      border: 2px solid #d0eaf8;
+      cursor: pointer;
+      transition: transform 0.18s, box-shadow 0.18s;
+      text-decoration: none;
+      display: block;
+      background: var(--white);
+    }
+    .juego-card:hover {
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: var(--shadow-md);
+      text-decoration: none;
+    }
+    .juego-thumb {
+      width: 100%;
+      height: 140px;
+      background: linear-gradient(135deg, var(--green), #20c997);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .juego-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      position: absolute;
+      inset: 0;
+    }
+    .juego-thumb-placeholder {
+      position: relative;
+      z-index: 1;
+    }
+    .juego-info {
+      padding: 12px 16px 14px;
+      text-align: left;
+    }
+    .juego-info strong {
+      font-family: 'Fredoka One', cursive;
+      font-size: 1.1rem;
+      color: var(--blue-dark);
+      display: block;
+      margin-bottom: 2px;
+    }
+    .juego-info span {
+      font-size: 0.8rem;
+      color: var(--text-light);
+      font-weight: 600;
+    }
+    .juego-seccion-titulo {
+      font-family: 'Fredoka One', cursive;
+      color: var(--green-dark);
+      font-size: 1rem;
+      text-align: left;
+      margin-bottom: 8px;
+      margin-top: 4px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header class="site-header">
+    <h1>Historia 🏛️</h1>
+    <p>¿De qué manera quieres aprender?</p>
+  </header>
+
+  <main class="main-menu" style="padding-top: 28px;">
+
+    <div class="modo-card">
+      <div class="modo-icon">🏛️</div>
+      <h2>¿Cómo quieres practicar?</h2>
+      <p>Elige entre responder preguntas o aprender jugando</p>
+
+      <div class="modo-opciones">
+
+        <!-- Quiz -->
+        <a href="historia.html" class="modo-btn modo-btn-quiz">
+          <span class="modo-btn-icon">📝</span>
+          <span class="modo-btn-texto">
+            <span class="modo-btn-label">Quiz</span>
+            <span class="modo-btn-desc">Preguntas de opción múltiple</span>
+          </span>
+        </a>
+
+        <!-- Juegos -->
+        <p class="juego-seccion-titulo">🎮 Juegos disponibles</p>
+
+        <a href="juego1h.html" class="juego-card" id="juego1-card">
+          <div class="juego-thumb">
+            <!-- Cuando tengas captura, añade: <img src="img/thumb-juego1h.html.png" alt="captura"> -->
+            <span class="juego-thumb-placeholder" id="juego1-emoji">🎮</span>
+          </div>
+          <div class="juego-info">
+            <strong id="juego1-nombre">Juego 1</strong>
+            <span id="juego1-desc">Próximamente disponible</span>
+          </div>
+        </a>
+
+      </div>
+    </div>
+
+    <button class="btn btn-outline" style="max-width:420px; margin-top:16px;"
+      onclick="window.location.href='materias.html'">← Cambiar Materia</button>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-grid">
+      <div><img src="img/InkluEdu.svg" alt="Logo InkluEdu"></div>
+      <div>
+        <strong>Proyecto desarrollado por:</strong>
+        <p>Caldera Zazueta Brandon Enrique · Chavez Rios Mario Alberto · Cuadras Lopez Ernesto Alonso</p>
+      </div>
+      <div>
+        <strong>Asesora:</strong>
+        <p>Salinas Montoya Gabriela</p>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

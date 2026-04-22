@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>InkluEdu — Historia</title>
+  <link rel="shortcut icon" href="img/InkluEdu.svg">
+  <link rel="stylesheet" href="style.css">
+  <script defer src="quiz-engine.js"></script>
+  <script defer src="historia.js"></script>
+</head>
+<body>
+
+  <header class="site-header">
+    <h1>Historia 🏛️</h1>
+    <p>¡Responde las preguntas y aprende!</p>
+  </header>
+
+  <main class="quiz-wrapper">
+
+    <div class="progress-ring-wrapper">
+      <div class="progreso-container">
+        <svg class="progreso-circulo" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <circle class="fondo" cx="50" cy="50" r="42"></circle>
+          <circle class="avance" cx="50" cy="50" r="42"
+            stroke-dasharray="263.9" stroke-dashoffset="263.9"></circle>
+        </svg>
+        <div class="progreso-texto" id="progreso-porcentaje">0%</div>
+      </div>
+    </div>
+
+    <div class="progress-bar-wrapper">
+      <div class="progress-bar-track">
+        <div class="progress-bar-fill" id="progreso"></div>
+      </div>
+      <p class="progress-label">
+        Pregunta <span id="numActual">0</span> de <span id="numTotal">0</span>
+      </p>
+    </div>
+
+    <div class="ejercicio-card">
+      <p id="pregunta"></p>
+      <div id="opciones"></div>
+      <p id="resultado"></p>
+
+      <div class="quiz-actions">
+        <button id="btnSiguiente" class="btn btn-primary" onclick="siguientePregunta()" style="display:none;">Siguiente ▶</button>
+        <button id="btnSaltar"    class="btn btn-yellow"  onclick="saltarPregunta()">Saltar ⏭</button>
+        <button id="btnReiniciar" class="btn btn-outline" style="display:none;">🔄 Reiniciar</button>
+      </div>
+    </div>
+
+    <div style="margin-top: 20px;">
+      <button class="btn btn-outline" onclick="window.location.href='modo.html?materia=historia'">← Regresar</button>
+    </div>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-grid">
+      <div><img src="img/InkluEdu.svg" alt="Logo InkluEdu"></div>
+      <div>
+        <strong>Proyecto desarrollado por:</strong>
+        <p>Caldera Zazueta Brandon Enrique · Chavez Rios Mario Alberto · Cuadras Lopez Ernesto Alonso</p>
+      </div>
+      <div>
+        <strong>Asesora:</strong>
+        <p>Salinas Montoya Gabriela</p>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

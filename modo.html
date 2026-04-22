@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>InkluEdu — ¿Cómo quieres aprender?</title>
+  <link rel="shortcut icon" href="img/InkluEdu.svg">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .modo-card {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-md);
+      padding: 28px 20px;
+      text-align: center;
+      max-width: 420px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    .modo-card .materia-badge {
+      display: inline-block;
+      background: var(--bg);
+      border: 2px solid var(--blue-light);
+      border-radius: var(--radius-full);
+      padding: 6px 20px;
+      font-family: 'Fredoka One', cursive;
+      font-size: 1.1rem;
+      color: var(--blue-dark);
+      margin-bottom: 20px;
+    }
+
+    .modo-card h2 {
+      font-family: 'Fredoka One', cursive;
+      font-size: clamp(1.3rem, 5vw, 1.7rem);
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+
+    .modo-card p {
+      font-size: 0.95rem;
+      color: var(--text-light);
+      margin-bottom: 28px;
+      line-height: 1.5;
+    }
+
+    .modo-opciones {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .modo-btn {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 18px 20px;
+      border-radius: var(--radius-md);
+      border: none;
+      cursor: pointer;
+      text-align: left;
+      font-family: 'Nunito', sans-serif;
+      transition: transform 0.15s, box-shadow 0.15s, filter 0.15s;
+      box-shadow: var(--shadow-sm);
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .modo-btn:active {
+      transform: scale(0.97);
+    }
+
+    .modo-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+      filter: brightness(1.05);
+    }
+
+    .modo-btn.quiz-btn {
+      background: linear-gradient(135deg, var(--blue-dark), var(--blue-mid));
+      color: var(--white);
+    }
+
+    .modo-btn.juego-btn {
+      background: linear-gradient(135deg, var(--green), #20c997);
+      color: var(--white);
+    }
+
+    .modo-btn .modo-icon {
+      font-size: 2rem;
+      flex-shrink: 0;
+      line-height: 1;
+    }
+
+    .modo-btn .modo-texto {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .modo-btn .modo-titulo {
+      font-family: 'Fredoka One', cursive;
+      font-size: 1.2rem;
+      line-height: 1;
+    }
+
+    .modo-btn .modo-desc {
+      font-size: 0.82rem;
+      opacity: 0.88;
+      line-height: 1.3;
+    }
+
+    /* Badge "Próximamente" para juego si no existe aún */
+    .badge-pronto {
+      display: inline-block;
+      background: rgba(255,255,255,0.25);
+      border-radius: var(--radius-full);
+      padding: 2px 8px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      margin-top: 3px;
+      width: fit-content;
+    }
+
+    @media (min-width: 600px) {
+      .modo-opciones {
+        flex-direction: row;
+      }
+      .modo-btn {
+        flex: 1;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 24px 16px;
+        gap: 10px;
+      }
+      .modo-btn .modo-icon {
+        font-size: 2.6rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header class="site-header">
+    <h1 id="header-titulo">Aprendiendo</h1>
+    <p>¿De qué manera quieres aprender hoy?</p>
+  </header>
+
+  <main class="main-menu" style="justify-content: flex-start; padding-top: 32px;">
+
+    <div class="modo-card">
+      <span class="materia-badge" id="materia-badge">📚 Materia</span>
+      <h2>¿Cómo quieres aprender?</h2>
+      <p>Elige entre responder preguntas o jugar para practicar lo que sabes.</p>
+
+      <div class="modo-opciones">
+
+        <!-- Quiz -->
+        <button class="modo-btn quiz-btn" id="btn-quiz" onclick="irAQuiz()">
+          <span class="modo-icon">📝</span>
+          <span class="modo-texto">
+            <span class="modo-titulo">Quiz</span>
+            <span class="modo-desc">Responde preguntas y pon a prueba tus conocimientos</span>
+          </span>
+        </button>
+
+        <!-- Juego -->
+        <button class="modo-btn juego-btn" id="btn-juego" onclick="irAJuego()">
+          <span class="modo-icon">🎮</span>
+          <span class="modo-texto">
+            <span class="modo-titulo">Juego</span>
+            <span class="modo-desc" id="juego-desc">Aprende jugando de forma interactiva</span>
+            <span class="badge-pronto" id="badge-pronto" style="display:none;">Próximamente</span>
+          </span>
+        </button>
+
+      </div>
+    </div>
+
+    <button class="btn btn-outline" style="max-width:420px; margin-top:16px;"
+      onclick="window.location.href='materias.html'">
+      ← Cambiar materia
+    </button>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-grid">
+      <div><img src="img/InkluEdu.svg" alt="Logo InkluEdu"></div>
+      <div>
+        <strong>Proyecto desarrollado por:</strong>
+        <p>Caldera Zazueta Brandon Enrique · Chavez Rios Mario Alberto · Cuadras Lopez Ernesto Alonso</p>
+      </div>
+      <div>
+        <strong>Asesora:</strong>
+        <p>Salinas Montoya Gabriela</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // ── Configuración de materias ──────────────────────────────────────────
+    // Para añadir una materia nueva o activar su juego, solo editar este objeto.
+    const MATERIAS = {
+      ciencias: {
+        nombre:    'Ciencias Naturales',
+        emoji:     '🌱',
+        quiz:      'ciencias.html',
+        juego:     null,            //← cambiar a 'juego-ciencias.html' cuando exista
+      },
+      math: {
+        nombre:    'Matemáticas',
+        emoji:     '🧮',
+        quiz:      'math.html',
+        juego:     null,            // ← cambiar a 'juego-math.html' cuando exista
+      },
+      espanol: {
+        nombre:    'Español',
+        emoji:     '📖',
+        quiz:      'espanol.html',
+        juego:     null,
+      },
+      historia: {
+        nombre:    'Historia',
+        emoji:     '🏛️',
+        quiz:      'historia.html',
+        juego:     null,
+      },
+      geografia: {
+        nombre:    'Geografía',
+        emoji:     '🌍',
+        quiz:      'geografia.html',
+        juego:     null,
+      },
+    };
+
+    // ── Leer parámetro de URL ──────────────────────────────────────────────
+    const params  = new URLSearchParams(window.location.search);
+    const clave   = params.get('materia');
+    const materia = MATERIAS[clave];
+
+    // Si la clave no existe, regresar a materias
+    if (!materia) {
+      window.location.href = 'materias.html';
+    }
+
+    // ── Poblar la UI con los datos de la materia ───────────────────────────
+    document.getElementById('header-titulo').textContent = materia.nombre;
+    document.getElementById('materia-badge').textContent = materia.emoji + ' ' + materia.nombre;
+
+    // Si no hay juego disponible, mostrar badge "Próximamente" y deshabilitar el botón
+    if (!materia.juego) {
+      document.getElementById('badge-pronto').style.display = 'block';
+      document.getElementById('juego-desc').textContent = 'Disponible próximamente';
+      const btnJuego = document.getElementById('btn-juego');
+      btnJuego.style.opacity = '0.6';
+      btnJuego.style.cursor  = 'not-allowed';
+    }
+
+    // ── Navegación ────────────────────────────────────────────────────────
+    function irAQuiz() {
+      window.location.href = materia.quiz;
+    }
+
+    function irAJuego() {
+      if (!materia.juego) return;   // no hacer nada si no existe aún
+      window.location.href = materia.juego;
+    }
+  </script>
+
+</body>
+</html>

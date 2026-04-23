@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>InkluEdu — Quiz de Banderas del Mundo</title>
+  <link rel="shortcut icon" href="img/InkluEdu.svg">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* ══════════════════════════════════
+       JUEGO — Quiz de Banderas (juego1g)
+       ══════════════════════════════════ */
+
+    /* Score pills dentro del HUD */
+    .score-bar {
+      display: flex;
+      gap: 10px;
+      width: 100%;
+      margin-bottom: 8px;
+    }
+    .score-pill {
+      flex: 1;
+      background: var(--bg);
+      border: 2px solid rgba(0, 119, 182, 0.15);
+      border-radius: var(--radius-md);
+      padding: 10px 8px;
+      text-align: center;
+    }
+    .score-pill .num {
+      font-family: 'Fredoka One', cursive;
+      font-size: 1.6rem;
+      color: var(--blue-dark);
+      line-height: 1;
+    }
+    .score-pill .lbl {
+      font-size: 10px;
+      color: var(--text-light);
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      margin-top: 2px;
+    }
+    .score-pill.streak-pill .num { color: var(--yellow-dark); }
+    .score-pill.streak-pill.hot .num {
+      animation: flamePulse 0.7s ease-in-out infinite alternate;
+    }
+    @keyframes flamePulse {
+      from { color: var(--yellow-dark); }
+      to   { color: var(--green); text-shadow: 0 0 10px rgba(6,214,160,.5); }
+    }
+
+    /* Selector de modo */
+    .mode-toggle {
+      display: flex;
+      gap: 6px;
+      width: 100%;
+      background: var(--bg);
+      border-radius: var(--radius-md);
+      padding: 5px;
+      margin-bottom: 10px;
+    }
+    .mode-btn {
+      flex: 1;
+      padding: 8px 4px;
+      border-radius: 14px;
+      border: none;
+      font-family: 'Nunito', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all .2s;
+      background: transparent;
+      color: var(--text-light);
+    }
+    .mode-btn.active {
+      background: var(--blue-dark);
+      color: var(--white);
+      box-shadow: 0 4px 12px rgba(0,119,182,.35);
+    }
+
+    /* Barra de progreso */
+    .progress-wrap {
+      height: 8px;
+      background: rgba(0,119,182,.12);
+      border-radius: 4px;
+      width: 100%;
+      overflow: hidden;
+      margin-bottom: 6px;
+    }
+    .progress-fill {
+      height: 100%;
+      border-radius: 4px;
+      background: linear-gradient(90deg, var(--blue-dark), var(--blue-mid));
+      transition: width .5s cubic-bezier(.4,0,.2,1);
+    }
+
+    /* Banner de racha */
+    .streak-banner {
+      text-align: center;
+      font-size: 14px;
+      font-weight: 800;
+      font-family: 'Fredoka One', cursive;
+      color: var(--yellow-dark);
+      min-height: 22px;
+      margin-bottom: 4px;
+    }
+
+    /* Tarjeta de pregunta */
+    .question-card {
+      width: 100%;
+      background: var(--bg);
+      border-radius: var(--radius-md);
+      padding: 20px 16px;
+      text-align: center;
+      min-height: 120px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+    .question-label {
+      font-size: 11px;
+      color: var(--text-light);
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      font-weight: 700;
+    }
+    .question-flag-img {
+      width: 130px;
+      height: 86px;
+      border-radius: 10px;
+      border: 2px solid rgba(0,119,182,.18);
+      object-fit: cover;
+      box-shadow: var(--shadow-sm);
+    }
+    .question-text {
+      font-family: 'Fredoka One', cursive;
+      font-size: clamp(1.6rem, 6vw, 2rem);
+      color: var(--navy);
+    }
+
+    /* Grid de respuestas */
+    .answers {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      width: 100%;
+      margin-bottom: 10px;
+    }
+    .ans-btn {
+      background: var(--white);
+      border: 2px solid rgba(0,119,182,.2);
+      border-radius: var(--radius-md);
+      padding: 14px 10px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      font-family: 'Nunito', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text);
+      transition: transform .12s, border-color .15s, background .15s;
+      min-height: 86px;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .ans-btn:hover:not(:disabled) {
+      transform: translateY(-3px) scale(1.02);
+      border-color: var(--blue-mid);
+      background: #f0faff;
+      box-shadow: var(--shadow-sm);
+    }
+    .ans-btn:active:not(:disabled) { transform: scale(0.97); }
+    .ans-btn img {
+      width: 72px;
+      height: 48px;
+      border-radius: 6px;
+      object-fit: cover;
+      border: 1.5px solid rgba(0,119,182,.15);
+    }
+    .ans-btn .country-name {
+      font-size: 13px;
+      font-weight: 800;
+      text-align: center;
+      line-height: 1.2;
+      color: var(--navy);
+    }
+    .ans-btn.correct {
+      background: rgba(6,214,160,.12);
+      border-color: var(--green);
+      animation: correctPop .35s ease;
+    }
+    .ans-btn.correct .country-name { color: var(--green-dark); }
+    .ans-btn.correct img { border-color: var(--green); }
+    .ans-btn.wrong {
+      background: rgba(239,68,68,.07);
+      border-color: #EF4444;
+    }
+    .ans-btn.wrong .country-name { color: #7F1D1D; }
+    .ans-btn.reveal {
+      background: rgba(0,180,216,.08);
+      border-color: var(--blue-mid);
+    }
+    .ans-btn.reveal .country-name { color: var(--blue-dark); }
+    .ans-btn:disabled { cursor: default; }
+
+    @keyframes correctPop {
+      0%  { transform: scale(1); }
+      40% { transform: scale(1.07); }
+      100%{ transform: scale(1); }
+    }
+    .ans-btn.correct::after {
+      content: '✓'; position: absolute; top: 5px; right: 7px;
+      font-size: 15px; color: var(--green);
+    }
+    .ans-btn.wrong::after {
+      content: '✗'; position: absolute; top: 5px; right: 7px;
+      font-size: 15px; color: #EF4444;
+    }
+
+    /* Feedback */
+    .feedback {
+      width: 100%;
+      min-height: 40px;
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: 800;
+      font-family: 'Nunito', sans-serif;
+      padding: 10px 16px;
+      text-align: center;
+      transition: all .2s;
+      margin-bottom: 10px;
+    }
+    .fb-correct { background: rgba(6,214,160,.12); color: var(--green-dark); }
+    .fb-wrong   { background: rgba(239,68,68,.08); color: #7F1D1D; }
+    .fb-hidden  { background: transparent; }
+
+    /* Botón Siguiente */
+    .next-btn {
+      width: 100%;
+      padding: 14px;
+      font-family: 'Fredoka One', cursive;
+      font-size: 1.1rem;
+      letter-spacing: .03em;
+      background: linear-gradient(135deg, var(--blue-dark), var(--blue-mid));
+      color: var(--white);
+      border: none;
+      border-radius: var(--radius-full);
+      cursor: pointer;
+      transition: all .2s;
+      box-shadow: var(--shadow-sm);
+      display: none;
+      margin-bottom: 10px;
+    }
+    .next-btn:hover  { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+    .next-btn:active { transform: scale(0.98); }
+    .next-btn.visible { display: block; }
+
+    /* Overlay de fin de partida */
+    .juego-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 119, 182, 0.95);
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      border-radius: var(--radius-lg);
+      color: var(--white);
+      text-align: center;
+      padding: 28px 24px;
+      z-index: 10;
+    }
+    .juego-overlay.visible { display: flex; }
+    .juego-overlay .end-emoji { font-size: 56px; line-height: 1; }
+    .juego-overlay h2 {
+      font-family: 'Fredoka One', cursive;
+      font-size: clamp(1.5rem, 5vw, 2rem);
+      color: var(--white);
+    }
+    .juego-overlay .end-msg {
+      font-size: clamp(.9rem, 3.5vw, 1.15rem);
+      opacity: .92;
+      color: var(--white);
+      font-family: 'Nunito', sans-serif;
+    }
+    .end-score-big {
+      font-family: 'Fredoka One', cursive;
+      font-size: clamp(2rem, 8vw, 3rem);
+      color: var(--yellow);
+    }
+    .end-score-big span { color: var(--white); opacity: .7; }
+    .overlay-btns {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      width: 100%;
+      max-width: 260px;
+    }
+    .btn-replay {
+      background: var(--yellow);
+      color: var(--navy);
+      border: none;
+      border-radius: var(--radius-full);
+      padding: 12px 0;
+      font-family: 'Fredoka One', cursive;
+      font-size: 1.05rem;
+      cursor: pointer;
+      width: 100%;
+      transition: all .2s;
+    }
+    .btn-replay:hover { transform: translateY(-2px); filter: brightness(1.05); }
+
+    /* Partículas */
+    .particle {
+      position: fixed;
+      pointer-events: none;
+      z-index: 9999;
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      animation: floatUp 1s ease-out forwards;
+    }
+    @keyframes floatUp {
+      from { opacity:1; transform: translateY(0) scale(1); }
+      to   { opacity:0; transform: translateY(-80px) scale(0.4); }
+    }
+
+    /* Hint de teclado */
+    .keyboard-hint {
+      font-size: .78rem;
+      color: var(--text-light);
+      text-align: center;
+      font-family: 'Nunito', sans-serif;
+      margin-top: 4px;
+    }
+  </style>
+  <script defer src="juego1g.js"></script>
+</head>
+
+<body>
+
+  <!-- ═══════════ HEADER InkluEdu ═══════════ -->
+  <header class="site-header">
+    <h1>Quiz de Banderas 🌍</h1>
+    <p>¡Demuestra cuánto sabes del mundo!</p>
+  </header>
+
+  <!-- ═══════════ CONTENIDO ═══════════ -->
+  <div class="page-content">
+    <div class="card">
+
+      <!-- juego-wrapper vive DENTRO de la card -->
+      <div class="juego-wrapper">
+
+        <!-- HUD: puntos, pregunta, racha -->
+        <div class="juego-hud">
+          <div class="score-bar">
+            <div class="score-pill">
+              <div class="num" id="pts">0</div>
+              <div class="lbl">Puntos</div>
+            </div>
+            <div class="score-pill">
+              <div class="num" id="qnum">1/10</div>
+              <div class="lbl">Pregunta</div>
+            </div>
+            <div class="score-pill streak-pill" id="streak-pill">
+              <div class="num" id="streak-num">0</div>
+              <div class="lbl">🔥 Racha</div>
+            </div>
+          </div>
+
+          <div class="mode-toggle">
+            <button class="mode-btn active" onclick="setMode('name')" id="btn-name">📝 Nombre → Bandera</button>
+            <button class="mode-btn" onclick="setMode('flag')" id="btn-flag">🏳 Bandera → Nombre</button>
+            <button class="mode-btn" onclick="setMode('mix')" id="btn-mix">🎲 Mezclar</button>
+          </div>
+
+          <div class="progress-wrap">
+            <div class="progress-fill" id="prog" style="width:0%"></div>
+          </div>
+
+          <div class="streak-banner" id="streak-banner"></div>
+        </div>
+
+        <!-- Área de juego -->
+        <div class="juego-area" id="juego-area">
+
+          <!-- Pregunta -->
+          <div class="question-card" id="question-card">
+            <div class="question-label" id="q-label"></div>
+            <img id="q-flag-img" class="question-flag-img" src="" alt="" style="display:none">
+            <div class="question-text" id="q-text" style="display:none"></div>
+          </div>
+
+          <!-- Respuestas + feedback -->
+          <div id="answers-wrap" style="padding: 0 2px;">
+            <div class="answers" id="answers"></div>
+            <div class="feedback fb-hidden" id="feedback"></div>
+          </div>
+
+          <!-- Pantalla de fin de juego (overlay sobre .juego-area) -->
+          <div class="juego-overlay" id="end-screen">
+            <div class="end-emoji" id="end-emoji">🏆</div>
+            <h2 id="end-title">¡Increíble!</h2>
+            <div class="end-msg" id="end-msg">Terminaste el quiz</div>
+            <div class="end-score-big" id="end-score">0 <span>/ 150</span></div>
+            <div class="overlay-btns">
+              <button class="btn-replay" onclick="restart()">🔄 Jugar de nuevo</button>
+              <button class="btn btn-outline btn-sm" onclick="window.location.href='modo-geografia.html'">← Cambiar Modo</button>
+            </div>
+          </div>
+
+        </div><!-- /.juego-area -->
+
+        <!-- Botón siguiente -->
+        <button class="next-btn" id="next-btn" onclick="nextQ()">Siguiente ➜</button>
+
+        <p class="keyboard-hint">💡 En desktop puedes usar las teclas 1, 2, 3 y 4 para responder</p>
+
+        <!-- Controles -->
+        <div class="juego-controles">
+          <button class="btn btn-outline btn-sm" id="btnReiniciar" onclick="restart()">🔄 Reiniciar</button>
+        </div>
+
+        <!-- Salida -->
+        <div style="margin-top: 8px;">
+          <button class="btn btn-outline" onclick="window.location.href='modo-geografia.html'">← Cambiar Modo</button>
+        </div>
+
+      </div><!-- /.juego-wrapper -->
+
+    </div><!-- /.card -->
+  </div><!-- /.page-content -->
+
+  <!-- ═══════════ FOOTER InkluEdu ═══════════ -->
+  <footer class="site-footer">
+    <div class="footer-grid">
+      <div><img src="img/InkluEdu.svg" alt="Logo InkluEdu"></div>
+      <div>
+        <strong>Proyecto desarrollado por:</strong>
+        <p>Caldera Zazueta Brandon Enrique · Chavez Rios Mario Alberto · Cuadras Lopez Ernesto Alonso</p>
+      </div>
+      <div>
+        <strong>Asesora:</strong>
+        <p>Salinas Montoya Gabriela</p>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

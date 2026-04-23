@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>InkluEdu — Rana Saltarina</title>
+  <link rel="shortcut icon" href="img/InkluEdu.svg">
+  <link rel="stylesheet" href="style.css">
+
+  <style>
+    /* ══════════════════════════════════
+       JUEGOS — clases base
+       (añadir también a style.css al publicar)
+       ══════════════════════════════════ */
+
+    .juego-wrapper {
+      width: 100%;
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px 16px 32px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .juego-hud {
+      width: 100%;
+      background: var(--white);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-sm);
+      padding: 12px 18px;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      font-family: 'Fredoka One', cursive;
+      font-size: 1.1rem;
+      color: var(--blue-dark);
+    }
+
+    .juego-area {
+      width: 100%;
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-md);
+      overflow: hidden;
+      position: relative;
+      min-height: 340px;
+    }
+
+    .juego-controles {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+      width: 100%;
+    }
+
+    .juego-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 119, 182, 0.93);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      border-radius: var(--radius-lg);
+      color: var(--white);
+      text-align: center;
+      padding: 28px 20px;
+      z-index: 50;
+    }
+
+    .juego-overlay h2 {
+      font-family: 'Fredoka One', cursive;
+      font-size: clamp(1.6rem, 6vw, 2.2rem);
+      color: var(--white);
+    }
+
+    .juego-overlay p {
+      font-size: clamp(0.95rem, 3.5vw, 1.2rem);
+      opacity: 0.95;
+      color: var(--white);
+      line-height: 1.5;
+    }
+
+    .juego-overlay .btn {
+      width: auto;
+      padding: 12px 28px;
+      font-size: 1.05rem;
+    }
+
+    @media (min-width: 600px) { .juego-wrapper { max-width: 680px; } }
+    @media (min-width: 900px) { .juego-wrapper { max-width: 720px; } }
+
+    /* ══ Estilos exclusivos del juego Rana Saltarina ══ */
+
+    #juego-area {
+      background: linear-gradient(180deg,
+        #c8f4d8 0%, #a2ddb8 40%, #72c49a 75%, #58b088 100%);
+    }
+
+    .ripple {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 100px;
+      background: repeating-linear-gradient(
+        0deg,
+        rgba(0,119,182,0.10) 0px,
+        rgba(0,180,216,0.05) 10px,
+        transparent 20px
+      );
+      pointer-events: none;
+    }
+
+    #op-bubble {
+      position: absolute;
+      top: 16px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--white);
+      color: var(--navy);
+      font-family: 'Fredoka One', cursive;
+      font-size: clamp(1.1rem, 5vw, 1.5rem);
+      padding: 9px 26px;
+      border-radius: var(--radius-full);
+      box-shadow: var(--shadow-md);
+      z-index: 20;
+      white-space: nowrap;
+    }
+
+    .leaf {
+      position: absolute;
+      width: 96px; height: 58px;
+      cursor: pointer; z-index: 15;
+      transition: transform 0.15s;
+      user-select: none;
+    }
+    .leaf:hover { transform: scale(1.08); }
+    .leaf svg   { width: 100%; height: 100%; }
+    .leaf .leaf-num {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      font-family: 'Fredoka One', cursive;
+      font-size: 1.25rem;
+      color: var(--white);
+      text-shadow: 0 2px 6px rgba(0,0,0,0.4);
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    #frog {
+      position: absolute;
+      font-size: 34px; z-index: 25;
+      transition: left 0.5s cubic-bezier(.4,2,.6,1),
+                  top  0.5s cubic-bezier(.4,2,.6,1);
+      pointer-events: none;
+    }
+
+    .splash {
+      position: absolute; font-size: 20px; z-index: 30;
+      animation: splashAnim 0.8s ease-out forwards;
+      pointer-events: none;
+    }
+    @keyframes splashAnim {
+      0%   { opacity:1; transform: scale(1)   translateY(0);    }
+      60%  { opacity:.7; transform: scale(1.5) translateY(-12px); }
+      100% { opacity:0; transform: scale(2)   translateY(-28px); }
+    }
+
+    .sink { animation: sinkAnim 0.8s ease-in forwards !important; }
+    @keyframes sinkAnim {
+      0%   { transform: scale(1)   rotate(0deg)  translateY(0);    opacity:1; }
+      60%  { transform: scale(0.7) rotate(15deg) translateY(30px); opacity:.5; }
+      100% { transform: scale(0.4) rotate(30deg) translateY(80px); opacity:0; }
+    }
+
+    .bounce-in { animation: bounceIn 0.45s cubic-bezier(.4,2,.6,1); }
+    @keyframes bounceIn {
+      0%   { transform: scale(0.6) translateY(-30px); opacity:0; }
+      70%  { transform: scale(1.12); opacity:1; }
+      100% { transform: scale(1); }
+    }
+
+    .msg-ok {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      font-family: 'Fredoka One', cursive;
+      font-size: clamp(1.1rem, 5vw, 1.6rem);
+      color: var(--green);
+      z-index: 40; pointer-events: none;
+      white-space: nowrap;
+      animation: popMsg 0.9s ease-out forwards;
+    }
+    .msg-err { color: #ff6b6b; }
+    @keyframes popMsg {
+      0%   { opacity:0; transform: translate(-50%,-70%) scale(0.7); }
+      30%  { opacity:1; transform: translate(-50%,-50%) scale(1.2); }
+      70%  { opacity:1; transform: translate(-50%,-50%) scale(1);   }
+      100% { opacity:0; transform: translate(-50%,-30%) scale(0.9); }
+    }
+
+    .star { font-size: 1.25rem; filter: grayscale(1) brightness(0.5); transition: filter .3s; }
+    .star.earned { filter: none; }
+
+    .hint-teclado {
+      font-size: 0.78rem;
+      color: var(--text-light);
+      text-align: center;
+    }
+  </style>
+
+  <script defer src="juego1m.js"></script>
+</head>
+
+<body>
+
+  <header class="site-header">
+    <h1>Rana Saltarina 🐸</h1>
+    <p>¡Ayuda a la rana a saltar a la hoja con la respuesta correcta!</p>
+  </header>
+
+  <main class="juego-wrapper">
+
+    <!-- HUD -->
+    <div class="juego-hud">
+      <span id="lvl-txt">Nivel 1</span>
+      <div id="stars" style="display:flex;gap:5px;">
+        <span class="star" id="s1">⭐</span>
+        <span class="star" id="s2">⭐</span>
+        <span class="star" id="s3">⭐</span>
+        <span class="star" id="s4">⭐</span>
+        <span class="star" id="s5">⭐</span>
+      </div>
+      <span id="score-txt">Puntos: 0</span>
+    </div>
+
+    <!-- Área de juego -->
+    <div class="juego-area" id="juego-area">
+
+      <div class="ripple"></div>
+      <div id="op-bubble">¿Cuánto es …?</div>
+      <div id="frog">🐸</div>
+
+      <!-- Pantalla de inicio -->
+      <div class="juego-overlay" id="pantalla-inicio">
+        <div style="font-size:3.2rem;">🐸</div>
+        <h2>¡Rana Saltarina!</h2>
+        <p>La ranita recibirá una operación.<br>
+           Toca la hoja con la respuesta correcta.<br>
+           ¡5 niveles, 3 hojas por nivel!</p>
+        <button class="btn btn-green" onclick="startGame()">¡Jugar! 🚀</button>
+      </div>
+
+      <!-- Overlay de fin de juego (oculto) -->
+      <div class="juego-overlay" id="juego-overlay" style="display:none;">
+        <div id="overlay-emoji" style="font-size:3.2rem;">🏆</div>
+        <h2 id="overlay-titulo">¡Ganaste!</h2>
+        <p id="overlay-msg">Completaste los 5 niveles.</p>
+        <button class="btn btn-green" onclick="startGame()">🔄 Jugar de nuevo</button>
+        <button class="btn btn-outline" onclick="window.location.href='modo-matematicas.html'">← Cambiar Modo</button>
+      </div>
+
+    </div><!-- /.juego-area -->
+
+    <!-- Controles -->
+    <div class="juego-controles">
+      <button class="btn btn-outline btn-sm" onclick="startGame()">🔄 Reiniciar</button>
+    </div>
+
+    <p class="hint-teclado">💡 En desktop puedes usar las teclas 1, 2 y 3 para elegir hoja</p>
+
+    <!-- Salida -->
+    <div>
+      <button class="btn btn-outline"
+        onclick="window.location.href='modo-matematicas.html'">← Cambiar Modo</button>
+    </div>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-grid">
+      <div><img src="img/InkluEdu.svg" alt="Logo InkluEdu"></div>
+      <div>
+        <strong>Proyecto desarrollado por:</strong>
+        <p>Caldera Zazueta Brandon Enrique · Chavez Rios Mario Alberto · Cuadras Lopez Ernesto Alonso</p>
+      </div>
+      <div>
+        <strong>Asesora:</strong>
+        <p>Salinas Montoya Gabriela</p>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

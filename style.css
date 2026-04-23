@@ -89,7 +89,7 @@ h1, h2, h3 {
 .site-header {
   background: linear-gradient(135deg, var(--blue-dark), var(--blue-mid));
   color: var(--white);
-  padding: 20px 16px;
+  padding: 30px 16px;
   text-align: center;
   box-shadow: var(--shadow-md);
   position: relative;

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>InkluEdu — Cadenas Tróficas</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Lexend:wght@400;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --white: #ffffff; --blue-dark: #1b365d; --blue-light: #00b4d8;
+      --navy: #0d233a; --green: #27b060; --green-light: #c8f4d8;
+      --red: #ff6b6b; --bg-color: #f4f9ff; --radius-md: 12px;
+      --radius-lg: 24px; --radius-full: 99px;
+      --shadow-sm: 0 4px 10px rgba(0,0,0,0.05); --shadow-md: 0 8px 25px rgba(0,0,0,0.1);
+    }
+    body { font-family: 'Lexend', sans-serif; background: var(--bg-color); color: var(--blue-dark); margin: 0; min-height: 100vh; display: flex; flex-direction: column; align-items: center; }
+    
+    .site-header { text-align: center; padding: 30px 20px 10px; }
+    .site-header h1 { font-family: 'Fredoka One', cursive; font-size: 2.2rem; margin: 0; }
+    #biome-subtitle { color: #666; font-size: 1.1rem; margin-top: 5px; }
+
+    .juego-wrapper { width: 100%; max-width: 720px; margin: 0 auto; padding: 20px 16px; display: flex; flex-direction: column; gap: 14px; align-items: center; }
+    .juego-hud { width: 100%; background: var(--white); border-radius: var(--radius-md); box-shadow: var(--shadow-sm); padding: 12px; display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; min-height: 45px; }
+    .juego-area { width: 100%; background: var(--white); border-radius: var(--radius-lg); box-shadow: var(--shadow-md); position: relative; min-height: 450px; padding: 25px; display: flex; flex-direction: column; gap: 20px; overflow: hidden; }
+    
+    .biome-chip { padding: 6px 14px; border-radius: var(--radius-full); background: #eee; font-size: 0.85rem; font-family: 'Fredoka One'; transition: 0.3s; }
+    .biome-chip.active { background: var(--blue-dark); color: white; }
+    .biome-chip.done { background: var(--green); color: white; }
+
+    .tray { display: flex; gap: 10px; justify-content: center; min-height: 115px; background: #f8fbff; border: 2px dashed #bde0fe; border-radius: var(--radius-md); padding: 15px; flex-wrap: wrap; }
+    .chain-row { display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; margin-top: 10px; min-height: 110px; }
+    
+    .slot { width: 95px; height: 105px; border: 2.5px dashed #bde0fe; border-radius: var(--radius-md); position: relative; display: flex; align-items: center; justify-content: center; background: #fff; }
+    .slot.correct { border: 3px solid var(--green); background: var(--green-light); }
+    .slot.incorrect { border-color: var(--red); animation: shake 0.4s; }
+    .slot-role { position: absolute; bottom: -20px; font-size: 9px; font-weight: 800; color: var(--green); text-transform: uppercase; text-align: center; width: 100%; }
+    
+    .card { width: 85px; height: 95px; background: white; border: 1px solid #ddd; border-radius: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: grab; box-shadow: var(--shadow-sm); }
+    .card-emoji { font-size: 2.2rem; }
+    .card-name { font-size: 0.75rem; font-weight: bold; margin-top: 4px; }
+    
+    .juego-overlay { position: absolute; inset: 0; background: rgba(0, 119, 182, 0.96); z-index: 100; display: flex; flex-direction: column; align-items: center; justify-content: center; color: white; text-align: center; padding: 25px; }
+    .juego-overlay h2 { font-family: 'Fredoka One'; font-size: 2rem; margin-bottom: 10px; }
+    
+    .btn { font-family: 'Fredoka One'; padding: 12px 28px; border: none; border-radius: var(--radius-full); cursor: pointer; transition: 0.2s; font-size: 1.05rem; text-decoration: none; display: inline-block; }
+    .btn-green { background: var(--green); color: white; }
+    .btn-outline { background: transparent; border: 2px solid var(--blue-dark); color: var(--blue-dark); margin-top: 20px; }
+    
+    @keyframes shake { 0%, 100% {transform: translateX(0);} 25% {transform: translateX(-5px);} 75% {transform: translateX(5px);} }
+  </style>
+</head>
+<body>
+
+  <header class="site-header">
+    <h1>Cadenas Tróficas 🌿</h1>
+    <p id="biome-subtitle">Cargando bioma...</p>
+  </header>
+
+  <main class="juego-wrapper">
+    <div class="juego-hud" id="biome-nav"></div>
+
+    <div class="juego-area">
+      <div class="tray" id="tray" ondragover="onDragOver(event)" ondrop="onDropTray(event)"></div>
+      <div class="chain-row" id="chain-row"></div>
+      
+      <div style="text-align:center;">
+        <button class="btn btn-green" onclick="validateChain()">Verificar Cadena ✓</button>
+      </div>
+
+      <div class="juego-overlay" id="pantalla-inicio">
+        <div style="font-size: 3rem;">🌍</div>
+        <h2>¡Cadenas Tróficas!</h2>
+        <p>Arrastra los organismos al lugar correcto para mostrar cómo fluye la energía.</p>
+        <button class="btn btn-green" onclick="startGame()">¡Comenzar! 🚀</button>
+      </div>
+
+      <div class="juego-overlay" id="tooltip-overlay" style="display:none; background: rgba(13, 35, 58, 0.95);">
+        <span id="tt-emoji" style="font-size:4rem;"></span>
+        <h2 id="tt-title">¡Bioma Completado!</h2>
+        <p>Has ordenado correctamente este ecosistema.</p>
+        <button class="btn btn-green" onclick="closeTooltip()">Siguiente Bioma →</button>
+      </div>
+
+      <div class="juego-overlay" id="juego-overlay-win" style="display:none; background: var(--green);">
+        <div style="font-size: 3.5rem;">🏆</div>
+        <h2>¡Felicidades, Biólogo!</h2>
+        <p>Has dominado todas las cadenas tróficas.</p>
+        <button class="btn" style="background:white; color:var(--green);" onclick="resetGame()">Reiniciar Juego 🔄</button>
+      </div>
+    </div>
+
+    <a href="image_a29062.jpg" class="btn btn-outline" id="btn-back">← Cambiar Materia</a>
+  </main>
+
+  <script src="juego1c.js"></script>
+</body>
+</html>

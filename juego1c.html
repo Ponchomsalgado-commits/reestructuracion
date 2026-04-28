@@ -9,9 +9,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Lexend:wght@400;600;700&display=swap" rel="stylesheet">
 
   <style>
-    /* ══════════════════════════════════
-       VARIABLES Y CLASES BASE (Paleta InkluEdu)
-       ══════════════════════════════════ */
     :root {
       --azul-claro: #5dade2;
       --verde-tdah: #82e0aa;
@@ -28,90 +25,166 @@
       --shadow-md: 0 10px 25px rgba(0,0,0,0.1);
     }
 
-    body { font-family: 'Lexend', sans-serif; background: var(--fondo); color: var(--texto); margin: 0; }
-
-    .juego-wrapper {
-      width: 100%; max-width: 720px; margin: 0 auto;
-      padding: 20px 16px 32px; display: flex; flex-direction: column;
-      align-items: center; gap: 14px;
+    body { 
+      font-family: 'Lexend', sans-serif; 
+      background: var(--fondo); 
+      color: var(--texto); 
+      margin: 0; 
     }
 
-    /* ════ HUD Y ÁREA DE JUEGO ════ */
+    .juego-wrapper {
+      width: 100%; 
+      max-width: 720px; 
+      margin: 0 auto;
+      padding: 20px 16px 32px; 
+      display: flex; 
+      flex-direction: column;
+      align-items: center; 
+      gap: 14px;
+    }
+
     .juego-hud {
-      width: 100%; background: var(--blanco); border-radius: var(--radius-md);
-      box-shadow: var(--shadow-sm); padding: 12px 18px; display: flex;
-      justify-content: center; align-items: center; flex-wrap: wrap; gap: 8px;
+      width: 100%; 
+      display: flex;
+      justify-content: center; 
+      align-items: center; 
+      flex-wrap: wrap; 
+      gap: 8px;
+      min-height: 40px;
     }
 
     .juego-area {
-      width: 100%; background: linear-gradient(180deg, #eaf2f8 0%, #d6eaf8 100%);
-      border-radius: var(--radius-lg); box-shadow: var(--shadow-md);
-      overflow: hidden; position: relative; min-height: 420px;
-      padding: 25px 15px; display: flex; flex-direction: column; gap: 20px;
+      width: 100%; 
+      background: linear-gradient(180deg, #eaf2f8 0%, #d6eaf8 100%);
+      border-radius: var(--radius-lg); 
+      box-shadow: var(--shadow-md);
+      overflow: hidden; 
+      position: relative; 
+      min-height: 420px;
+      padding: 25px 15px; 
+      display: flex; 
+      flex-direction: column; 
+      gap: 20px;
     }
 
-    /* ════ OVERLAYS ════ */
     .juego-overlay {
-      position: absolute; inset: 0; background: rgba(46, 90, 158, 0.95);
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-      gap: 14px; border-radius: var(--radius-lg); color: var(--blanco);
-      text-align: center; padding: 28px 20px; z-index: 50;
+      position: absolute; 
+      inset: 0; 
+      background: rgba(46, 90, 158, 0.95);
+      display: flex; 
+      flex-direction: column; 
+      align-items: center; 
+      justify-content: center;
+      gap: 14px; 
+      border-radius: var(--radius-lg); 
+      color: var(--blanco);
+      text-align: center; 
+      padding: 28px 20px; 
+      z-index: 50;
     }
     .juego-overlay h2 { font-family: 'Fredoka One', cursive; font-size: clamp(1.8rem, 6vw, 2.5rem); margin: 0; }
     .juego-overlay p { font-size: clamp(1rem, 3.5vw, 1.2rem); opacity: 0.95; line-height: 1.5; }
     .overlay-win { background: rgba(82, 190, 128, 0.95); }
 
-    /* ════ BOTONES ESTILO INKLUEDU ════ */
     .btn {
-      font-family: 'Fredoka One', cursive; padding: 12px 28px; border-radius: var(--radius-full);
-      border: none; cursor: pointer; transition: 0.3s; font-size: 1.05rem; text-decoration: none;
+      font-family: 'Fredoka One', cursive; 
+      padding: 12px 28px; 
+      border-radius: var(--radius-full);
+      border: none; 
+      cursor: pointer; 
+      transition: 0.3s; 
+      font-size: 1.05rem; 
+      text-decoration: none;
     }
     .btn-green { background: var(--success); color: var(--blanco); }
     .btn-green:hover { transform: scale(1.05); }
     .btn-outline { background: var(--blanco); color: var(--texto); border: 2px solid #ddd; }
     .btn-outline:hover { background: #f0f0f0; }
 
-    /* ════ ELEMENTOS ESPECÍFICOS: CADENAS TRÓFICAS ════ */
     .biome-chip {
-      font-family: 'Fredoka One', cursive; font-size: 0.85rem; padding: 6px 14px;
-      border-radius: var(--radius-full); background: #f0f4f8; color: var(--azul-oscuro);
-      transition: 0.3s; border: 2px solid transparent;
+      font-family: 'Fredoka One', cursive; 
+      font-size: 0.85rem; 
+      padding: 6px 14px;
+      border-radius: var(--radius-full); 
+      background: #f0f4f8; 
+      color: var(--azul-oscuro);
+      transition: 0.3s; 
+      border: 2px solid transparent;
     }
     .biome-chip.active { background: var(--azul-oscuro); color: var(--blanco); }
     .biome-chip.done { background: var(--verde-tdah); color: var(--texto); border-color: var(--success); }
 
     .tray {
-      display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;
-      min-height: 120px; background: rgba(255,255,255,0.6); border: 2px dashed var(--azul-claro);
-      border-radius: var(--radius-md); padding: 15px;
+      display: flex; 
+      gap: 10px; 
+      justify-content: center; 
+      flex-wrap: wrap;
+      min-height: 120px; 
+      background: rgba(255,255,255,0.6); 
+      border: 2px dashed var(--azul-claro);
+      border-radius: var(--radius-md); 
+      padding: 15px;
     }
 
     .chain-row {
-      display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; margin-top: 10px;
+      display: flex; 
+      justify-content: center; 
+      align-items: center; 
+      gap: 4px;
+      flex-wrap: nowrap; 
+      margin-top: 10px; 
+      width: 100%; 
+      overflow-x: auto; 
+      overflow-y: hidden; /* Previene scroll vertical no deseado */
+      padding-bottom: 30px; /* 👇 ESTO DA MÁS ESPACIO HACIA ABAJO PARA EL TEXTO 👇 */
     }
 
-    /* ════ ARREGLO DE CUADROS Y CARTAS ════ */
     .slot {
-      width: 96px; height: 116px; border: 2.5px dashed var(--azul-claro);
-      border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center;
-      background: rgba(255,255,255,0.8); position: relative; transition: 0.3s;
-      padding: 0; box-sizing: border-box;
+      width: 82px; 
+      height: 105px; 
+      border: 2.5px dashed var(--azul-claro);
+      border-radius: var(--radius-md); 
+      display: flex; 
+      align-items: center; 
+      justify-content: center;
+      background: rgba(255,255,255,0.8); 
+      position: relative; 
+      transition: 0.3s;
+      padding: 0; 
+      box-sizing: border-box; 
+      flex-shrink: 0;
     }
     .slot.correct { border: 3px solid var(--success); background: #eafaf1; }
-    .slot.incorrect { border-color: var(--error); animation: shake 0.4s; }
+    .slot.incorrect { border: 3px solid var(--error); background: #fdedec; animation: shake 0.4s; }
 
     .slot-role {
-      position: absolute; bottom: -20px; font-size: 10px; font-weight: 700;
-      color: var(--success); text-transform: uppercase; text-align: center; width: 100%;
+      position: absolute; 
+      bottom: -24px; /* Un poquitito más abajo para que respire */
+      font-size: 10px; 
+      font-weight: 700;
+      color: var(--success); 
+      text-transform: uppercase; 
+      text-align: center; 
+      width: 100%;
     }
 
     .card {
-      width: 86px; height: 106px; border-radius: 12px; background: var(--blanco);
-      border: 1px solid #e0e0e0; display: flex; flex-direction: column; align-items: center;
-      justify-content: center; cursor: grab; box-shadow: var(--shadow-sm); user-select: none;
-      margin: 0; box-sizing: border-box;
+      width: 74px; 
+      height: 95px; 
+      border-radius: 12px; 
+      background: var(--blanco);
+      border: 1px solid #e0e0e0; 
+      display: flex; 
+      flex-direction: column; 
+      align-items: center;
+      justify-content: center; 
+      cursor: grab; 
+      box-shadow: var(--shadow-sm); 
+      user-select: none;
+      margin: 0; 
+      box-sizing: border-box;
     }
-    .card-emoji { font-size: 2.5rem; line-height: 1; margin-bottom: 4px; }
+    .card-emoji { font-size: 2.2rem; line-height: 1; margin-bottom: 4px; }
     .card-name { font-size: 0.75rem; font-weight: 700; color: var(--texto); text-align: center; line-height: 1; margin: 0; }
 
     @keyframes shake { 0%, 100% {transform: translateX(0);} 25% {transform: translateX(-5px);} 75% {transform: translateX(5px);} }
@@ -121,14 +194,13 @@
 <body>
 
   <header class="site-header" style="text-align: center; padding: 20px;">
-    <h1 style="font-family: 'Fredoka One', cursive; color: var(--azul-oscuro); margin:0;">Cadenas Tróficas 🌿</h1>
-    <p id="biome-subtitle" style="color: var(--texto); opacity: 0.8;">Aprende cómo fluye la energía en la naturaleza</p>
+    <h1 style="font-family: 'Fredoka One', cursive; color: white; margin:0;">Cadenas Tróficas 🌿</h1>
+    <p id="biome-subtitle" style="color: white; opacity: 0.9;">Aprende cómo fluye la energía en la naturaleza</p>
   </header>
 
   <main class="juego-wrapper">
 
-    <div class="juego-hud" id="biome-nav">
-      </div>
+    <div class="juego-hud" id="biome-nav"></div>
 
     <div class="juego-area" id="juego-area">
       
@@ -137,6 +209,7 @@
       
       <div style="text-align:center; margin-top: 15px;">
         <button class="btn btn-green" onclick="validateChain()">Verificar Cadena ✓</button>
+        <p id="error-msg" style="color: var(--error); font-weight: bold; font-family: 'Fredoka One', cursive; display: none; margin-top: 15px; font-size: 1.1rem; animation: shake 0.4s;"></p>
       </div>
 
       <div class="juego-overlay" id="pantalla-inicio">
@@ -160,7 +233,9 @@
         <button class="btn btn-outline" onclick="resetGame()">🔄 Jugar de nuevo</button>
       </div>
 
-    </div><div class="juego-controles" style="margin-top: 10px;">
+    </div>
+
+    <div class="juego-controles" style="margin-top: 10px;">
       <button class="btn btn-outline" onclick="window.location.href='modo-ciencias.html'">← Cambiar Modo</button>
     </div>
 

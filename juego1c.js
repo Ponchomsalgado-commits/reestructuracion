@@ -1,8 +1,3 @@
-/* ══════════════════════════════════════════════════
-   juego1c.js — Cadenas Tróficas (Ciencias Naturales)
-   InkluEdu · Juego 1 de Ciencias
-   ══════════════════════════════════════════════════ */
-
 'use strict';
 
 const BIOMAS = [
@@ -21,7 +16,7 @@ const BIOMAS = [
     organismos:[
       {id:'sol_o', emoji:'☀️', nombre:'Sol', rol:'Energía'},
       {id:'alga', emoji:'🌱', nombre:'Alga', rol:'Productor'},
-      {id:'pez_c', emoji:'🐟', nombre:'Pez Pequeño', rol:'Consumidor 1°'},
+      {id:'pez_c', emoji:'🐠', nombre:'Pez Pequeño', rol:'Consumidor 1°'}, /* 👇 ¡Cambiado a pez tropical! 👇 */
       {id:'atun', emoji:'🐟', nombre:'Atún', rol:'Consumidor 2°'},
       {id:'tiburon', emoji:'🦈', nombre:'Tiburón', rol:'Superdepredador'}
     ]
@@ -107,8 +102,11 @@ function render() {
       ${placedIds[i] ? cardHTML(placedIds[i], lockedSlots[i]) : '<span style="opacity:0.2; font-size:1.5rem; color: var(--azul-claro);">?</span>'}
       ${lockedSlots[i] ? `<div class="slot-role">${BIOMAS[currentIdx].organismos[i].rol}</div>` : ''}
     </div>
-    ${i < 4 ? '<div style="display:flex; align-items:center; color: var(--azul-claro); font-weight:bold; font-size:1.5rem; margin: 0 5px;">→</div>' : ''}
+    ${i < 4 ? '<div style="display:flex; align-items:center; color: var(--azul-claro); font-weight:bold; font-size:1.5rem; margin: 0 2px;">→</div>' : ''}
   `).join('');
+
+  const errorMsgEl = document.getElementById('error-msg');
+  if(errorMsgEl) errorMsgEl.style.display = 'none';
 }
 
 function cardHTML(id, locked = false) {
@@ -126,10 +124,21 @@ function onDragOver(e) { e.preventDefault(); }
 
 function onDropSlot(e, idx) {
   if (lockedSlots[idx]) return;
-  const oldId = placedIds[idx];
-  if (oldId) trayIds.push(oldId);
-  placedIds[idx] = draggedId;
-  trayIds = trayIds.filter(id => id !== draggedId);
+
+  const originIdx = placedIds.indexOf(draggedId); 
+  const itemInDest = placedIds[idx]; 
+
+  if (originIdx !== -1) {
+    placedIds[originIdx] = itemInDest;
+    placedIds[idx] = draggedId;
+  } else {
+    if (itemInDest) {
+      trayIds.push(itemInDest);
+    }
+    placedIds[idx] = draggedId;
+    trayIds = trayIds.filter(id => id !== draggedId);
+  }
+  
   render();
 }
 
@@ -145,6 +154,8 @@ function onDropTray(e) {
 function validateChain() {
   const bioma = BIOMAS[currentIdx];
   let complete = true;
+  let hasErrors = false;
+  let hasMissing = false;
   
   placedIds.forEach((id, i) => {
     if (id === bioma.organismos[i].id) {
@@ -152,9 +163,9 @@ function validateChain() {
     } else {
       complete = false;
       if (id) {
-        const slots = document.querySelectorAll('.slot');
-        slots[i].classList.add('incorrect');
-        setTimeout(() => slots[i].classList.remove('incorrect'), 500);
+        hasErrors = true;
+      } else {
+        hasMissing = true;
       }
     }
   });
@@ -165,6 +176,23 @@ function validateChain() {
     if (!biomasDone.includes(currentIdx)) biomasDone.push(currentIdx);
     buildNav();
     setTimeout(showTooltip, 300);
+  } else {
+    const errorMsgEl = document.getElementById('error-msg');
+    const slots = document.querySelectorAll('.slot');
+    
+    if (hasErrors) {
+      placedIds.forEach((id, i) => {
+        if (id && id !== bioma.organismos[i].id && !lockedSlots[i]) {
+          slots[i].classList.add('incorrect');
+        }
+      });
+      errorMsgEl.textContent = "¡Ups! Revisa los cuadros rojos.";
+      errorMsgEl.style.display = 'block';
+    } 
+    else if (hasMissing) {
+      errorMsgEl.textContent = "¡Te faltan organismos por colocar!";
+      errorMsgEl.style.display = 'block';
+    }
   }
 }
 

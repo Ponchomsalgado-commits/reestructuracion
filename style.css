@@ -591,6 +591,25 @@ h1, h2, h3 {
   position: relative;
 }
 
+.insti-layout {
+  flex-direction: row;
+  height: 65vh;
+  min-height: 400px;
+}
+
+.insti-lista {
+  flex: 1;
+  max-height: none;
+  overflow-y: auto;
+  border-bottom: none;
+  border-right: 3px solid var(--blue-mid);
+}
+
+.insti-mapa {
+  flex: 2;
+  height: auto;
+}
+
 #mapa {
   width: 100%;
   height: 100%;
@@ -737,7 +756,6 @@ h1, h2, h3 {
   .btn-row .btn {
     width: auto;
     flex: 1 1 180px;
-    max-width: 260px;
   }
 
   .texto-img {
@@ -820,12 +838,17 @@ h1, h2, h3 {
   .tabla-actividades th, .tabla-actividades td {
     padding: 16px 18px;
   }
+
+  .selector-vista{
+    display: none;
+  }
 }
 
 @media (max-width: 768px) {
     .insti-mapa {
         display: none;
-        height: 400px;
+        height: 100%;
+        width: 100%;
     }
 
     .mostrar-mapa .insti-mapa {

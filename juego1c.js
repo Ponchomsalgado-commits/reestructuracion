@@ -1,10 +1,13 @@
 /* ══════════════════════════════════════════════════
-   juego1c.js — Lógica de Ciencias Naturales
+   juego1c.js — Cadenas Tróficas (Ciencias Naturales)
+   InkluEdu · Juego 1 de Ciencias
    ══════════════════════════════════════════════════ */
+
+'use strict';
 
 const BIOMAS = [
   { 
-    nombre:'Bosque', icono:'🌳', subtitulo:'Bioma 1: Del sol al búho en el bosque',
+    id:'bosque', nombre:'Bosque', icono:'🌳', subtitulo:'Del sol al búho: cada eslabón importa',
     organismos:[
       {id:'sol', emoji:'☀️', nombre:'Sol', rol:'Energía'},
       {id:'planta', emoji:'🌿', nombre:'Planta', rol:'Productor'},
@@ -14,27 +17,27 @@ const BIOMAS = [
     ]
   },
   { 
-    nombre:'Océano', icono:'🌊', subtitulo:'Bioma 2: La vida bajo el mar azul',
+    id:'oceano', nombre:'Océano', icono:'🌊', subtitulo:'El mar profundo empieza con luz',
     organismos:[
       {id:'sol_o', emoji:'☀️', nombre:'Sol', rol:'Energía'},
       {id:'alga', emoji:'🌱', nombre:'Alga', rol:'Productor'},
-      {id:'pez', emoji:'🐟', nombre:'Pez', rol:'Consumidor 1°'},
+      {id:'pez_c', emoji:'🐟', nombre:'Pez Pequeño', rol:'Consumidor 1°'},
       {id:'atun', emoji:'🐟', nombre:'Atún', rol:'Consumidor 2°'},
       {id:'tiburon', emoji:'🦈', nombre:'Tiburón', rol:'Superdepredador'}
     ]
   },
   { 
-    nombre:'Desierto', icono:'🌵', subtitulo:'Bioma 3: Sobreviviendo al calor extremo',
+    id:'desierto', nombre:'Desierto', icono:'🌵', subtitulo:'Vida extrema bajo el sol',
     organismos:[
       {id:'sol_d', emoji:'☀️', nombre:'Sol', rol:'Energía'},
       {id:'cactus', emoji:'🌵', nombre:'Cactus', rol:'Productor'},
-      {id:'insecto', emoji:'🪲', nombre:'Escarabajo', rol:'Consumidor 1°'},
+      {id:'escarabajo', emoji:'🪲', nombre:'Escarabajo', rol:'Consumidor 1°'},
       {id:'lagarto', emoji:'🦎', nombre:'Lagartija', rol:'Consumidor 2°'},
       {id:'halcon', emoji:'🦅', nombre:'Halcón', rol:'Superdepredador'}
     ]
   },
   { 
-    nombre:'Sabana', icono:'🦁', subtitulo:'Bioma 4: La gran llanura africana',
+    id:'sabana', nombre:'Sabana', icono:'🦁', subtitulo:'La gran llanura africana',
     organismos:[
       {id:'sol_s', emoji:'☀️', nombre:'Sol', rol:'Energía'},
       {id:'pasto', emoji:'🌾', nombre:'Pasto', rol:'Productor'},
@@ -52,55 +55,59 @@ let trayIds = [];
 let biomasDone = [];
 let draggedId = null;
 
-// Referencias
 const trayEl = document.getElementById('tray');
 const chainRowEl = document.getElementById('chain-row');
 const navEl = document.getElementById('biome-nav');
+const overlayWin = document.getElementById('juego-overlay-win');
+const tooltipEl = document.getElementById('tooltip-overlay');
+const startEl = document.getElementById('pantalla-inicio');
 const subtitleEl = document.getElementById('biome-subtitle');
 
-function shuffle(arr) { return [...arr].sort(() => Math.random() - 0.5); }
+function shuffle(arr) {
+  return [...arr].sort(() => Math.random() - 0.5);
+}
 
 function startGame() {
-  document.getElementById('pantalla-inicio').style.display = 'none';
-  document.getElementById('juego-overlay-win').style.display = 'none';
+  startEl.style.display = 'none';
+  overlayWin.style.display = 'none';
   biomasDone = [];
+  buildNav();
   loadBiome(0);
 }
 
-function loadBiome(idx) {
-  currentIdx = idx;
-  const bioma = BIOMAS[idx];
-  
-  placedIds = new Array(5).fill(null);
-  lockedSlots = new Array(5).fill(false);
-  trayIds = shuffle(bioma.organismos.map(o => o.id));
-  
-  // Actualización de textos recuperada
-  subtitleEl.textContent = bioma.subtitulo;
-  
-  renderNav();
-  render();
+function resetGame() {
+  startGame();
 }
 
-function renderNav() {
+function buildNav() {
   navEl.innerHTML = BIOMAS.map((b, i) => `
-    <span class="biome-chip ${biomasDone.includes(i) ? 'done' : ''} ${i === currentIdx ? 'active' : ''}">
+    <span class="biome-chip ${biomasDone.includes(i) ? 'done' : ''} ${i === currentIdx ? 'active' : ''}" id="chip-${i}">
       ${b.icono} ${b.nombre}
     </span>
   `).join('');
 }
 
-function render() {
-  // Render de bandeja
-  trayEl.innerHTML = trayIds.map(id => cardHTML(id)).join('');
+function loadBiome(idx) {
+  currentIdx = idx;
+  const bioma = BIOMAS[idx];
+  placedIds = new Array(5).fill(null);
+  lockedSlots = new Array(5).fill(false);
+  trayIds = shuffle(bioma.organismos.map(o => o.id));
+  
+  subtitleEl.textContent = bioma.subtitulo;
+  buildNav();
+  render();
+}
 
-  // Render de cadena
+function render() {
+  trayEl.innerHTML = trayIds.map(id => cardHTML(id)).join('');
+  
   chainRowEl.innerHTML = new Array(5).fill(0).map((_, i) => `
     <div class="slot ${lockedSlots[i] ? 'correct' : ''}" ondragover="onDragOver(event)" ondrop="onDropSlot(event, ${i})">
-      ${placedIds[i] ? cardHTML(placedIds[i], lockedSlots[i]) : '<span style="opacity:0.2">?</span>'}
+      ${placedIds[i] ? cardHTML(placedIds[i], lockedSlots[i]) : '<span style="opacity:0.2; font-size:1.5rem; color: var(--azul-claro);">?</span>'}
       ${lockedSlots[i] ? `<div class="slot-role">${BIOMAS[currentIdx].organismos[i].rol}</div>` : ''}
     </div>
-    ${i < 4 ? '<div style="align-self:center; font-weight:bold; color:#bde0fe">→</div>' : ''}
+    ${i < 4 ? '<div style="display:flex; align-items:center; color: var(--azul-claro); font-weight:bold; font-size:1.5rem; margin: 0 5px;">→</div>' : ''}
   `).join('');
 }
 
@@ -114,7 +121,6 @@ function cardHTML(id, locked = false) {
   `;
 }
 
-// Funciones de Drag & Drop
 function onDragStart(e, id) { draggedId = id; }
 function onDragOver(e) { e.preventDefault(); }
 
@@ -128,49 +134,54 @@ function onDropSlot(e, idx) {
 }
 
 function onDropTray(e) {
-  const oldIdx = placedIds.indexOf(draggedId);
-  if (oldIdx !== -1 && !lockedSlots[oldIdx]) {
-    placedIds[oldIdx] = null;
+  const findIdx = placedIds.indexOf(draggedId);
+  if (findIdx !== -1 && !lockedSlots[findIdx]) {
+    placedIds[findIdx] = null;
     trayIds.push(draggedId);
-    render();
   }
+  render();
 }
 
 function validateChain() {
   const bioma = BIOMAS[currentIdx];
-  let isLevelComplete = true;
-
+  let complete = true;
+  
   placedIds.forEach((id, i) => {
     if (id === bioma.organismos[i].id) {
       lockedSlots[i] = true;
     } else {
-      isLevelComplete = false;
-      if(id) {
-         // Animación de error si hay algo puesto pero está mal
-         const slots = document.querySelectorAll('.slot');
-         slots[i].classList.add('incorrect');
-         setTimeout(() => slots[i].classList.remove('incorrect'), 500);
+      complete = false;
+      if (id) {
+        const slots = document.querySelectorAll('.slot');
+        slots[i].classList.add('incorrect');
+        setTimeout(() => slots[i].classList.remove('incorrect'), 500);
       }
     }
   });
-
+  
   render();
-  if (isLevelComplete) {
+  
+  if (complete) {
     if (!biomasDone.includes(currentIdx)) biomasDone.push(currentIdx);
-    document.getElementById('tt-emoji').textContent = bioma.icono;
-    document.getElementById('tooltip-overlay').style.display = 'flex';
+    buildNav();
+    setTimeout(showTooltip, 300);
   }
+}
+
+function showTooltip() {
+  tooltipEl.style.display = 'flex';
+  document.getElementById('tt-emoji').textContent = BIOMAS[currentIdx].icono;
 }
 
 function closeTooltip() {
-  document.getElementById('tooltip-overlay').style.display = 'none';
+  tooltipEl.style.display = 'none';
   if (biomasDone.length === BIOMAS.length) {
-    document.getElementById('juego-overlay-win').style.display = 'flex';
+    overlayWin.style.display = 'flex';
   } else {
-    // Siguiente bioma
     let next = (currentIdx + 1) % BIOMAS.length;
+    while (biomasDone.includes(next)) { 
+        next = (next + 1) % BIOMAS.length; 
+    }
     loadBiome(next);
   }
 }
-
-function resetGame() { startGame(); }

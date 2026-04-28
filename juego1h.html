@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>InkluEdu — Exploradores del Tiempo</title>
+  <link rel="shortcut icon" href="img/InkluEdu.svg">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* ══════════════════════════════════
+       JUEGOS — Exploradores del Tiempo
+       ══════════════════════════════════ */
+
+    .juego-wrapper {
+      width: 100%;
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 0 16px 32px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
+
+    /* ── HUD ── */
+    .juego-hud {
+      width: 100%;
+      background: var(--white);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-sm);
+      padding: 12px 18px;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      font-family: 'Fredoka One', cursive;
+      font-size: 1.1rem;
+      color: var(--blue-dark);
+    }
+
+    .hud-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+    }
+
+    .hud-label {
+      font-size: 0.72rem;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 800;
+      color: var(--text-light);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .hud-value {
+      font-size: 1.35rem;
+      color: var(--blue-dark);
+      line-height: 1;
+    }
+    .hud-value.verde    { color: var(--green); }
+    .hud-value.amarillo { color: var(--yellow-dark); }
+
+    .modo-badge {
+      display: inline-block;
+      background: linear-gradient(135deg, var(--blue-mid), var(--blue-dark));
+      color: var(--white);
+      font-family: 'Fredoka One', cursive;
+      font-size: 0.85rem;
+      padding: 4px 14px;
+      border-radius: var(--radius-full);
+    }
+
+    /* ── Barra de progreso ── */
+    .juego-progreso {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .progreso-barra-track {
+      height: 8px;
+      background: #dce8f0;
+      border-radius: var(--radius-full);
+      overflow: hidden;
+    }
+
+    .progreso-barra-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--green), var(--blue-mid));
+      border-radius: var(--radius-full);
+      transition: width 0.5s ease;
+    }
+
+    .progreso-texto-sm {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--text-light);
+      text-align: right;
+      font-family: 'Nunito', sans-serif;
+    }
+
+    /* ── Área de juego ── */
+    .juego-area {
+      width: 100%;
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-md);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .juego-card-interna {
+      padding: 22px 20px 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
+
+    /* ── Pregunta ── */
+    .juego-pregunta {
+      font-family: 'Fredoka One', cursive;
+      font-size: clamp(1rem, 4vw, 1.35rem);
+      color: var(--navy);
+      text-align: center;
+      line-height: 1.35;
+      background: var(--bg);
+      width: 100%;
+      padding: 12px 16px;
+      border-radius: var(--radius-md);
+      border-left: 4px solid var(--blue-mid);
+    }
+
+    /* ── Imagen ── */
+    .juego-img-wrapper {
+      width: 100%;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      position: relative;
+      background: #c8e6f5;
+    }
+
+    .juego-img-wrapper img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      display: block;
+      transition: opacity 0.5s ease;
+    }
+
+    .juego-img-caption {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(2, 62, 138, 0.82);
+      color: var(--white);
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 700;
+      padding: 5px 12px;
+      text-align: center;
+    }
+
+    /* ── Opciones FECHA ── */
+    .opciones-fechas {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      width: 100%;
+    }
+
+    .btn-fecha {
+      padding: 14px 8px;
+      border: 2.5px solid var(--blue-light);
+      border-radius: var(--radius-md);
+      background: var(--white);
+      font-family: 'Fredoka One', cursive;
+      font-size: clamp(0.95rem, 3.5vw, 1.2rem);
+      color: var(--blue-dark);
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.18s;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .btn-fecha:hover:not(:disabled) {
+      background: var(--blue-dark);
+      color: var(--white);
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-md);
+      border-color: var(--blue-dark);
+    }
+
+    .btn-fecha.correcto {
+      background: linear-gradient(135deg, var(--green), #20c997);
+      color: var(--white);
+      border-color: var(--green);
+      transform: scale(1.05);
+    }
+
+    .btn-fecha.incorrecto {
+      background: linear-gradient(135deg, #e63946, #c1121f);
+      color: var(--white);
+      border-color: #c1121f;
+    }
+
+    .btn-fecha:disabled { cursor: not-allowed; }
+
+    /* ── Opciones MONUMENTO ── */
+    .opciones-monumento {
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+      width: 100%;
+    }
+
+    .btn-monumento {
+      padding: 12px 16px;
+      border: 2.5px solid var(--blue-light);
+      border-radius: var(--radius-md);
+      background: var(--white);
+      font-family: 'Nunito', sans-serif;
+      font-size: clamp(0.88rem, 3.2vw, 1.05rem);
+      font-weight: 700;
+      color: var(--text);
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.18s;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .letra-badge {
+      font-family: 'Fredoka One', cursive;
+      font-size: 0.85rem;
+      background: var(--blue-light);
+      color: var(--navy);
+      padding: 2px 8px;
+      border-radius: var(--radius-full);
+      flex-shrink: 0;
+      min-width: 26px;
+      text-align: center;
+    }
+
+    .btn-monumento:hover:not(:disabled) {
+      background: #f0faff;
+      border-color: var(--blue-mid);
+      transform: translateX(5px);
+    }
+
+    .btn-monumento.correcto {
+      background: linear-gradient(135deg, #d8f5ed, #b7ede0);
+      border-color: var(--green);
+      color: var(--green-dark);
+    }
+
+    .btn-monumento.incorrecto {
+      background: linear-gradient(135deg, #fde8ea, #fac8cc);
+      border-color: #e63946;
+      color: #c1121f;
+    }
+
+    .btn-monumento:disabled { cursor: not-allowed; }
+
+    /* ── Feedback ── */
+    .juego-feedback {
+      font-family: 'Nunito', sans-serif;
+      font-weight: 800;
+      font-size: clamp(0.9rem, 3.5vw, 1.05rem);
+      text-align: center;
+      min-height: 28px;
+      padding: 8px 16px;
+      border-radius: var(--radius-md);
+      width: 100%;
+      transition: all 0.3s;
+    }
+
+    .juego-feedback.ok      { background: #d8f5ed; color: var(--green-dark); }
+    .juego-feedback.error   { background: #fde8ea; color: #c1121f; }
+    .juego-feedback.neutral { background: transparent; color: transparent; }
+
+    /* ── Botón Siguiente ── */
+    .btn-siguiente {
+      display: none; /* JS lo muestra con inline-flex */
+      align-items: center;
+      gap: 8px;
+      padding: 13px 28px;
+      border: none;
+      border-radius: var(--radius-full);
+      background: linear-gradient(135deg, var(--blue-dark), var(--blue-mid));
+      color: var(--white);
+      font-family: 'Fredoka One', cursive;
+      font-size: 1.1rem;
+      cursor: pointer;
+      box-shadow: var(--shadow-md);
+      transition: transform 0.18s, filter 0.18s;
+      animation: pulso 0.5s ease;
+    }
+
+    .btn-siguiente:hover {
+      transform: translateY(-2px) scale(1.03);
+      filter: brightness(1.08);
+    }
+
+    @keyframes pulso {
+      0%   { transform: scale(0.85); opacity: 0; }
+      60%  { transform: scale(1.06); }
+      100% { transform: scale(1);    opacity: 1; }
+    }
+
+    /* ── Controles ── */
+    .juego-controles {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+      width: 100%;
+    }
+
+    /* ── Overlay final ── */
+    .juego-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(2, 62, 138, 0.95);
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      border-radius: var(--radius-lg);
+      color: var(--white);
+      text-align: center;
+      padding: 28px 24px;
+      z-index: 10;
+    }
+
+    .juego-overlay.visible { display: flex; }
+
+    .juego-overlay h2 {
+      font-family: 'Fredoka One', cursive;
+      font-size: clamp(1.5rem, 6vw, 2.2rem);
+      color: var(--white);
+    }
+
+    .juego-overlay p {
+      font-size: clamp(0.95rem, 4vw, 1.2rem);
+      opacity: 0.92;
+      color: var(--white);
+    }
+
+    .overlay-score {
+      font-family: 'Fredoka One', cursive;
+      font-size: clamp(2rem, 8vw, 3rem);
+      color: var(--yellow);
+      line-height: 1;
+    }
+
+    .overlay-sub {
+      font-size: 0.92rem !important;
+      opacity: 0.75 !important;
+    }
+
+    .overlay-btns {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+      margin-top: 6px;
+    }
+
+    .overlay-btns .btn {
+      width: auto;
+      flex: 1 1 140px;
+      max-width: 210px;
+      padding: 12px 16px;
+      font-size: 1rem;
+    }
+
+    /* ── Hint teclado ── */
+    .hint-teclado {
+      font-size: 0.8rem;
+      color: var(--text-light);
+      text-align: center;
+      font-family: 'Nunito', sans-serif;
+      width: 100%;
+    }
+
+    @media (min-width: 600px) {
+      .juego-wrapper         { max-width: 680px; }
+      .juego-img-wrapper img { height: 240px; }
+    }
+
+    @media (min-width: 900px) {
+      .juego-wrapper         { max-width: 760px; }
+      .juego-img-wrapper img { height: 260px; }
+    }
+  </style>
+  <script defer src="juego1h.js"></script>
+</head>
+
+<body>
+
+  <header class="site-header">
+    <h1>Exploradores del Tiempo 🗺️</h1>
+    <p>Pon a prueba tu conocimiento sobre monumentos y fechas históricas</p>
+  </header>
+
+  <main class="juego-wrapper">
+
+    <!-- HUD -->
+    <div class="juego-hud">
+      <div class="hud-item">
+        <span class="hud-label">Puntos</span>
+        <span class="hud-value verde" id="hud-puntos">0</span>
+      </div>
+      <div class="hud-item">
+        <span class="hud-label">Correctas</span>
+        <span class="hud-value verde" id="hud-correctas">0</span>
+      </div>
+      <div class="hud-item">
+        <span class="hud-label">Pregunta</span>
+        <span class="hud-value" id="hud-pregunta">1 / 22</span>
+      </div>
+      <div class="hud-item">
+        <span class="hud-label">Modo</span>
+        <span class="modo-badge" id="hud-modo">📅 Fecha</span>
+      </div>
+    </div>
+
+    <!-- Barra de progreso -->
+    <div class="juego-progreso">
+      <div class="progreso-barra-track">
+        <div class="progreso-barra-fill" id="barra-progreso" style="width:0%"></div>
+      </div>
+      <span class="progreso-texto-sm" id="texto-progreso">0 de 22 respondidas</span>
+    </div>
+
+    <!-- Área de juego -->
+    <div class="juego-area" id="juego-area">
+
+      <div class="juego-card-interna" id="juego-card">
+
+        <!-- Pregunta -->
+        <p class="juego-pregunta" id="juego-pregunta">Cargando...</p>
+
+        <!-- Imagen -->
+        <div class="juego-img-wrapper">
+          <img id="juego-imagen" src="" alt="Imagen histórica" loading="lazy">
+          <span class="juego-img-caption" id="juego-caption"></span>
+        </div>
+
+        <!-- Opciones (se renderizan dinámicamente) -->
+        <div id="opciones-container" style="width:100%;"></div>
+
+        <!-- Feedback -->
+        <div class="juego-feedback neutral" id="juego-feedback"> </div>
+
+        <!-- Botón Siguiente (aparece después de responder) -->
+        <button class="btn-siguiente" id="btnSiguiente">
+          Siguiente ➜
+        </button>
+
+      </div>
+
+      <!-- Overlay de fin de juego -->
+      <div class="juego-overlay" id="juego-overlay">
+        <div style="font-size:3rem;">🏆</div>
+        <h2 id="overlay-titulo">¡Juego terminado!</h2>
+        <div class="overlay-score" id="overlay-score">0 pts</div>
+        <p id="overlay-detalle"></p>
+        <p class="overlay-sub" id="overlay-sub"></p>
+        <div class="overlay-btns">
+          <button class="btn btn-yellow" id="btnJugarDeNuevo">🔄 Jugar de nuevo</button>
+          <button class="btn btn-outline"
+            onclick="window.location.href='modo-historia.html'">← Cambiar Modo</button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Controles -->
+    <div class="juego-controles">
+      <button class="btn btn-outline btn-sm" id="btnReiniciar">🔄 Reiniciar</button>
+    </div>
+
+    <!-- Salida -->
+    <div style="width:100%; text-align:center;">
+      <button class="btn btn-outline btn-sm"
+        onclick="window.location.href='modo-historia.html'">← Cambiar Modo</button>
+    </div>
+
+    <p class="hint-teclado">
+      💡 Usa <strong>1, 2, 3</strong> para elegir fecha · <strong>A–D</strong> para monumentos · <strong>Enter</strong> para Siguiente
+    </p>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-grid">
+      <div><img src="img/InkluEdu.svg" alt="Logo InkluEdu"></div>
+      <div>
+        <strong>Proyecto desarrollado por:</strong>
+        <p>Caldera Zazueta Brandon Enrique · Chavez Rios Mario Alberto · Cuadras Lopez Ernesto Alonso</p>
+      </div>
+      <div>
+        <strong>Asesora:</strong>
+        <p>Salinas Montoya Gabriela</p>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

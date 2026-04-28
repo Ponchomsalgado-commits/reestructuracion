@@ -1,8 +1,9 @@
 <?php
-$host = "localhost";     // Servidor
-$user = "root";          // Usuario de MySQL
-$pass = "";              // Contraseña (vacía si usas XAMPP)
-$db   = "registrobd";       // Nombre de tu base de datos
+$host = "sql200.infinityfree.com";     // Servidor
+$user = "if0_41754312";          // Usuario de MySQL
+$pass = "VxO7HKAitXJGEI";              // Contraseña (vacía si usas XAMPP)
+$db   = "if0_41754312_visitas";       // Nombre de tu base de datos
+
 
 $conexion = new mysqli($host, $user, $pass, $db);
 

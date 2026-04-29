@@ -19,19 +19,27 @@ const dragToken = document.getElementById('drag-token');
 function startGame() {
     currentLevel = 0;
     score = 0;
-    showScreen('game-screen');
+    
+    // Ocultar los overlays de InkluEdu
+    document.getElementById('pantalla-inicio').style.display = 'none';
+    document.getElementById('juego-overlay-win').style.display = 'none';
+    
     loadLevel();
 }
 
 function loadLevel() {
     const data = wordsData[currentLevel];
     
-    // Actualizar Interfaz
+    // Actualizar Interfaz (HUD)
     document.getElementById('current-q').textContent = currentLevel + 1;
     document.getElementById('progress-fill').style.width = `${(currentLevel / wordsData.length) * 100}%`;
     document.getElementById('rule-badge').textContent = data.type;
     document.getElementById('word-display').textContent = data.word;
     
+    // Limpiar clases de estado
+    const noTildeZone = document.getElementById('no-tilde-zone');
+    noTildeZone.classList.remove('correct', 'wrong', 'correct-answer-hint');
+
     // Generar zonas de soltado
     const grid = document.getElementById('drop-grid');
     grid.innerHTML = '';
@@ -46,12 +54,13 @@ function loadLevel() {
 
     // Resetear posición de la ficha
     dragToken.style.position = 'static';
+    dragToken.style.transform = 'none';
 }
 
 // Lógica de Arrastre (Drag & Drop)
 function moveToken(e) {
-    const x = e.clientX || e.touches[0].clientX;
-    const y = e.clientY || e.touches[0].clientY;
+    const x = e.clientX || (e.touches ? e.touches[0].clientX : 0);
+    const y = e.clientY || (e.touches ? e.touches[0].clientY : 0);
     dragToken.style.left = `${x - 32}px`;
     dragToken.style.top = `${y - 32}px`;
 }
@@ -67,9 +76,8 @@ document.addEventListener('pointermove', (e) => {
     if (!isDragging) return;
     moveToken(e);
     
-    // Feedback visual (hover)
-    const x = e.clientX || e.touches[0].clientX;
-    const y = e.clientY || e.touches[0].clientY;
+    const x = e.clientX || (e.touches ? e.touches[0].clientX : 0);
+    const y = e.clientY || (e.touches ? e.touches[0].clientY : 0);
     
     document.querySelectorAll('.dropzone').forEach(zone => {
         const rect = zone.getBoundingClientRect();
@@ -95,6 +103,7 @@ document.addEventListener('pointerup', (e) => {
         if (x > rect.left && x < rect.right && y > rect.top && y < rect.bottom) {
             droppedOn = zone;
         }
+        zone.classList.remove('hover-target'); // Limpiar hover
     });
 
     if (droppedOn) {
@@ -105,16 +114,25 @@ document.addEventListener('pointerup', (e) => {
 });
 
 function checkAnswer(selectedIndex, element) {
-    const correctIdx = wordsData[currentLevel].correctIdx;
-    
+    const data = wordsData[currentLevel];
+    const correctIdx = data.correctIdx;
+
     if (selectedIndex === correctIdx) {
         element.classList.add('correct');
         score++;
     } else {
         element.classList.add('wrong');
+        
+        // Pista de la respuesta correcta (Borde y resplandor verde)
+        if (correctIdx === -1) {
+            document.getElementById('no-tilde-zone').classList.add('correct-answer-hint');
+        } else {
+            document.querySelectorAll(`.drop-grid .dropzone[data-index="${correctIdx}"]`).forEach(zone => {
+                zone.classList.add('correct-answer-hint');
+            });
+        }
     }
 
-    // Esperar un momento antes del siguiente nivel
     setTimeout(() => {
         currentLevel++;
         if (currentLevel < wordsData.length) {
@@ -122,15 +140,12 @@ function checkAnswer(selectedIndex, element) {
         } else {
             showGameOver();
         }
-    }, 800);
+    }, 1500); 
 }
 
 function showGameOver() {
-    showScreen('over-screen');
+    // Mostrar overlay de victoria 
+    document.getElementById('progress-fill').style.width = `100%`;
+    document.getElementById('juego-overlay-win').style.display = 'flex';
     document.getElementById('final-hits').textContent = `${score}/${wordsData.length}`;
-}
-
-function showScreen(id) {
-    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-    document.getElementById(id).classList.add('active');
 }

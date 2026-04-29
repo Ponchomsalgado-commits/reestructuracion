@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tilde Máster: Rompecabezas</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="site-title">✏️ Tilde Máster: El Desafío</div>
+  <div class="site-subtitle">Arrastra la ficha a la sílaba correcta</div>
+</header>
+
+<div class="blob blob-1"></div>
+<div class="blob blob-2"></div>
+
+<div id="start-screen" class="screen active">
+  <div class="logo">TILDE MÁSTER</div>
+  <div class="logo-sub">Rompecabezas</div>
+
+  <button class="btn-start" onclick="startGame()">🚀 ¡Jugar!</button>
+</div>
+
+<div id="game-screen" class="screen">
+  
+  <div class="top-progress">
+    <div class="progress-circle" id="current-q">1</div>
+    <div class="progress-track">
+      <div class="progress-fill" id="progress-fill"></div>
+    </div>
+    <div class="progress-total">10</div>
+  </div>
+  
+  <div class="word-card">
+    <div id="rule-badge" class="rule-badge">AGUDA</div>
+    <div id="word-display" class="word-display"></div>
+  </div>
+
+  <div class="puzzle-area">
+    <div class="drop-grid" id="drop-grid"></div>
+    <div class="dropzone no-tilde-zone" id="no-tilde-zone" data-index="-1">✗ No lleva tilde</div>
+    
+    <div class="token-dock">
+      <div id="drag-token" class="drag-token">´</div>
+    </div>
+  </div>
+</div>
+
+<div id="over-screen" class="screen">
+  <div class="over-title">¡Fin del juego!</div>
+  
+  <div class="result-card">
+    <div class="result-label">Aciertos Totales</div>
+    <div class="result-value" id="final-hits">0/10</div>
+  </div>
+
+  <button class="btn-retry" onclick="startGame()">🔄 Jugar de nuevo</button>
+</div>
+
+<footer class="site-footer">
+  <div class="footer-left">
+    <div class="footer-logo-wrap">
+      <img src="logo.png" alt="InkluEdu Logo" class="footer-logo">
+      <div class="footer-logo-name">Inklu<span>Edu</span></div>
+    </div>
+    <div class="footer-credits">
+      <div class="footer-credits-title">Proyecto desarrollado por:</div>
+      <div class="footer-credits-names">
+        Caldera Zazueta Brandon Enrique · Chavez Rios Mario Alberto · Cuadras Lopez Ernesto Alonso
+      </div>
+    </div>
+  </div>
+  <div class="footer-right">
+    <div class="footer-asesora-title">Asesora:</div>
+    <div class="footer-asesora-name">Salinas Montoya Gabriela</div>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>

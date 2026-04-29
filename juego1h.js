@@ -17,7 +17,7 @@ const PREGUNTAS = [
   {
     tipo: 'fecha',
     pregunta: '¿En qué año fue inaugurada la Torre Eiffel en París?',
-    imagen: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Tour_Eiffel_Wikimedia_Commons.jpg/600px-Tour_Eiffel_Wikimedia_Commons.jpg',
+    imagen: 'https://www.proarquitectura.es/wp-content/uploads/2023/01/22eiffel-tower-g0c73a4cd3_1920.jpg',
     caption: 'Torre Eiffel — París, Francia',
     opciones: ['1889', '1901', '1875'],
     correcta: '1889',
@@ -25,7 +25,7 @@ const PREGUNTAS = [
   {
     tipo: 'fecha',
     pregunta: '¿En qué año llegó Cristóbal Colón a América por primera vez?',
-    imagen: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/Portrait_of_a_Man%2C_Said_to_be_Christopher_Columbus.jpg/600px-Portrait_of_a_Man%2C_Said_to_be_Christopher_Columbus.jpg',
+    imagen: 'https://upload.wikimedia.org/wikipedia/commons/d/d5/Desembarco_de_Col%C3%B3n_de_Di%C3%B3scoro_Puebla.jpg',
     caption: 'Retrato atribuido a Cristóbal Colón (s. XVI)',
     opciones: ['1492', '1510', '1488'],
     correcta: '1492',
@@ -33,7 +33,7 @@ const PREGUNTAS = [
   {
     tipo: 'fecha',
     pregunta: '¿En qué año comenzó la unificación de la Gran Muralla China bajo la dinastía Qin?',
-    imagen: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/20090529-great-wall.jpg/600px-20090529-great-wall.jpg',
+    imagen: 'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgfDWWImP4M6dmFPxbiqAmMruIAt5_s5qe9TqZHfHJmAfDi6fEv8j1xugsqdFfKrf6r5T3Fnb4-b-381OO0I2N7HDtAhJVZqcD9-XSyYDJSft3wrd95uYvYVWS8Rj16HJrv8EghnYuky7od/s1600/dinast%C3%ADa+qin+muralla+china.jpg',
     caption: 'Gran Muralla China — Patrimonio de la Humanidad',
     opciones: ['221 a.C.', '500 d.C.', '1000 d.C.'],
     correcta: '221 a.C.',
@@ -41,7 +41,7 @@ const PREGUNTAS = [
   {
     tipo: 'fecha',
     pregunta: '¿En qué año cayó el Imperio Romano de Occidente?',
-    imagen: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/Colosseum_in_Rome%2C_Italy_-_April_2007.jpg/600px-Colosseum_in_Rome%2C_Italy_-_April_2007.jpg',
+    imagen: 'https://www.romaimperial.com/imagenes/Caida-del-Imperio-Romano.jpg',
     caption: 'Coliseo Romano — símbolo del Imperio',
     opciones: ['376 d.C.', '476 d.C.', '590 d.C.'],
     correcta: '476 d.C.',
@@ -49,7 +49,7 @@ const PREGUNTAS = [
   {
     tipo: 'fecha',
     pregunta: '¿En qué año estalló la Revolución Francesa con la toma de la Bastilla?',
-    imagen: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/Anonymous_-_Prise_de_la_Bastille.jpg/600px-Anonymous_-_Prise_de_la_Bastille.jpg',
+    imagen: 'https://content-historia.nationalgeographic.com.es/medio/2022/11/30/la-vision-de-perrault-sobre-la-toma-de-la-bastilla_00000000_221130080709_800x535.jpg',
     caption: 'La toma de la Bastilla — 14 de julio de 1789',
     opciones: ['1776', '1789', '1804'],
     correcta: '1789',
@@ -57,7 +57,7 @@ const PREGUNTAS = [
   {
     tipo: 'fecha',
     pregunta: '¿En qué año se firmó la Declaración de Independencia de los Estados Unidos?',
-    imagen: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8f/Declaration_of_Independence_%281823%29_by_William_Stone.jpg/600px-Declaration_of_Independence_%281823%29_by_William_Stone.jpg',
+    imagen: 'https://usadesconocido.com/wp-content/uploads/2025/06/John_after_Trumbull_-_Signature_of_the_United_States_Declaration_of_Independence_in_1776_Engraving_aft_-_MeisterDrucke-971066.jpg',
     caption: 'Declaración de Independencia de EE.UU.',
     opciones: ['1776', '1789', '1812'],
     correcta: '1776',
@@ -65,7 +65,7 @@ const PREGUNTAS = [
   {
     tipo: 'fecha',
     pregunta: '¿En qué año terminó la Segunda Guerra Mundial con la rendición de Alemania y Japón?',
-    imagen: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1f/No-nb_bldsa_5c019.jpg/600px-No-nb_bldsa_5c019.jpg',
+    imagen: 'https://upload.wikimedia.org/wikipedia/commons/0/0f/Mamoru_Shigemitsu_signs_the_Instrument_of_Surrender%2C_officially_ending_the_Second_World_War_-_Alt.jpg',
     caption: 'Celebraciones del fin de la Segunda Guerra Mundial',
     opciones: ['1943', '1945', '1948'],
     correcta: '1945',
@@ -73,7 +73,7 @@ const PREGUNTAS = [
   {
     tipo: 'fecha',
     pregunta: '¿En qué año pisó el ser humano la Luna por primera vez con la misión Apolo 11?',
-    imagen: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/Aldrin_Apollo_11_original.jpg/600px-Aldrin_Apollo_11_original.jpg',
+    imagen: 'https://content.nationalgeographic.com.es/medio/2016/07/20/apolo-bandera-astronautas_2701a04d.jpg',
     caption: 'Buzz Aldrin en la superficie lunar — Apolo 11',
     opciones: ['1965', '1969', '1972'],
     correcta: '1969',
@@ -81,7 +81,7 @@ const PREGUNTAS = [
   {
     tipo: 'fecha',
     pregunta: '¿En qué año se inició la construcción de la Gran Pirámide de Giza?',
-    imagen: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Kheops-Pyramid.jpg/600px-Kheops-Pyramid.jpg',
+    imagen: 'https://curiosfera-historia.com/wp-content/uploads/Extracci%C3%B3n-y-transporte-de-los-bloques.jpg',
     caption: 'Pirámide de Keops — Giza, Egipto',
     opciones: ['2560 a.C.', '1200 a.C.', '500 a.C.'],
     correcta: '2560 a.C.',
@@ -89,7 +89,7 @@ const PREGUNTAS = [
   {
     tipo: 'fecha',
     pregunta: '¿En qué año Napoleón Bonaparte fue coronado Emperador de los Franceses?',
-    imagen: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/50/Jacques-Louis_David_-_The_Emperor_Napoleon_in_His_Study_at_the_Tuileries_-_Google_Art_Project.jpg/600px-Jacques-Louis_David_-_The_Emperor_Napoleon_in_His_Study_at_the_Tuileries_-_Google_Art_Project.jpg',
+    imagen: 'https://upload.wikimedia.org/wikipedia/commons/1/1e/Jacques-Louis_David_-_The_Coronation_of_Napoleon_%281805-1807%29.jpg',
     caption: 'Napoleón Bonaparte — pintado por Jacques-Louis David',
     opciones: ['1799', '1804', '1812'],
     correcta: '1804',
@@ -97,7 +97,7 @@ const PREGUNTAS = [
   {
     tipo: 'fecha',
     pregunta: '¿En qué año se consumó la Independencia de México?',
-    imagen: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/fd/El_Coloso_de_la_Independencia.jpg/600px-El_Coloso_de_la_Independencia.jpg',
+    imagen: 'https://sanangel.edu.mx/wp-content/uploads/2024/07/27-de-septiembre-de-1821.webp',
     caption: 'Ángel de la Independencia — Ciudad de México',
     opciones: ['1810', '1821', '1836'],
     correcta: '1821',
@@ -105,7 +105,7 @@ const PREGUNTAS = [
   {
     tipo: 'fecha',
     pregunta: '¿En qué año cayó el Muro de Berlín, que dividía Alemania Oriental y Occidental?',
-    imagen: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/32/West_and_East_Germans_at_the_Berlin_Wall_1989.jpg/600px-West_and_East_Germans_at_the_Berlin_Wall_1989.jpg',
+    imagen: 'https://capitandenim.com/cdn/shop/articles/lg-b-muro_20berl_C3_ADn_e61075ad-7f7d-49f5-8993-3fb01eec58f5.jpg?v=1764009106',
     caption: 'Ciudadanos en el Muro de Berlín — noviembre de 1989',
     opciones: ['1985', '1989', '1993'],
     correcta: '1989',
@@ -115,7 +115,7 @@ const PREGUNTAS = [
   {
     tipo: 'monumento',
     pregunta: '¿Cómo se llama esta pirámide escalonada maya, sede del famoso "efecto de serpiente"?',
-    imagen: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/Chichen_Itza_3.jpg/600px-Chichen_Itza_3.jpg',
+    imagen: 'https://upload.wikimedia.org/wikipedia/commons/5/51/Chichen_Itza_3.jpg',
     caption: '¿Reconoces esta pirámide en la Península de Yucatán?',
     opciones: ['Machu Picchu', 'Chichén Itzá', 'Teotihuacán', 'Monte Albán'],
     correcta: 'Chichén Itzá',
@@ -123,7 +123,7 @@ const PREGUNTAS = [
   {
     tipo: 'monumento',
     pregunta: '¿Cuál es el nombre de este imponente anfiteatro elíptico construido en Roma?',
-    imagen: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/Colosseum_in_Rome%2C_Italy_-_April_2007.jpg/600px-Colosseum_in_Rome%2C_Italy_-_April_2007.jpg',
+    imagen: 'https://content-historia.nationalgeographic.com.es/medio/2024/01/31/el-coliseo_10c4d6e4_240131154133_2000x1212.jpg',
     caption: '¿Cuál es el nombre de este anfiteatro en Roma?',
     opciones: ['Panteón de Roma', 'Foro Romano', 'Coliseo Romano', 'Termas de Caracalla'],
     correcta: 'Coliseo Romano',
@@ -131,7 +131,7 @@ const PREGUNTAS = [
   {
     tipo: 'monumento',
     pregunta: '¿Cómo se llama esta ciudadela inca construida a 2 430 metros sobre el nivel del mar en Perú?',
-    imagen: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/eb/Machu_Picchu%2C_Peru.jpg/600px-Machu_Picchu%2C_Peru.jpg',
+    imagen: 'https://upload.wikimedia.org/wikipedia/commons/c/ca/Machu_Picchu%2C_Peru_%282018%29.jpg',
     caption: '¿Sabes cómo se llama esta ciudad en las nubes?',
     opciones: ['Chichén Itzá', 'Tiwanaku', 'Machu Picchu', 'Chan Chan'],
     correcta: 'Machu Picchu',
@@ -139,7 +139,7 @@ const PREGUNTAS = [
   {
     tipo: 'monumento',
     pregunta: '¿Cuál es el nombre de esta pirámide egipcia, la más alta del mundo antiguo?',
-    imagen: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Kheops-Pyramid.jpg/600px-Kheops-Pyramid.jpg',
+    imagen: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Kheops-Pyramid.jpg/1280px-Kheops-Pyramid.jpg',
     caption: '¿Cómo se llama esta pirámide en Giza?',
     opciones: ['Pirámide de Kefrén', 'Pirámide de Keops', 'Pirámide de Micerino', 'Pirámide de Saqqara'],
     correcta: 'Pirámide de Keops',
@@ -147,7 +147,7 @@ const PREGUNTAS = [
   {
     tipo: 'monumento',
     pregunta: '¿Cómo se llama este famoso palacio-fortaleza árabe en Granada, España?',
-    imagen: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Alhambra_evening_panorama_Mirador_San_Nicolas_sRGB-1.jpg/600px-Alhambra_evening_panorama_Mirador_San_Nicolas_sRGB-1.jpg',
+    imagen: 'https://www.castlesintheworld.com/es/wp-content/uploads/alhambra-granada.jpg',
     caption: '¿Reconoces este palacio nazarí en Andalucía?',
     opciones: ['Alcázar de Sevilla', 'La Alhambra', 'Mezquita de Córdoba', 'El Escorial'],
     correcta: 'La Alhambra',
@@ -155,7 +155,7 @@ const PREGUNTAS = [
   {
     tipo: 'monumento',
     pregunta: '¿Cuál es el nombre de este templo griego construido en honor a la diosa Atenea?',
-    imagen: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/da/The_Parthenon_in_Athens.jpg/600px-The_Parthenon_in_Athens.jpg',
+    imagen: 'https://mymodernmet.com/wp/wp-content/uploads/2019/09/parthenon-facts-thumbnail.jpg',
     caption: '¿Cómo se llama este templo en la Acrópolis de Atenas?',
     opciones: ['Erecteión', 'Partenón', 'Templo de Zeus Olímpico', 'Hefestión'],
     correcta: 'Partenón',
@@ -163,7 +163,7 @@ const PREGUNTAS = [
   {
     tipo: 'monumento',
     pregunta: '¿Cómo se llama el mausoleo de mármol blanco construido en India por el Shah Jahan en memoria de su esposa?',
-    imagen: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/Taj_Mahal_%28Edited%29.jpeg/600px-Taj_Mahal_%28Edited%29.jpeg',
+    imagen: 'https://upload.wikimedia.org/wikipedia/commons/1/1d/Taj_Mahal_%28Edited%29.jpeg',
     caption: '¿Reconoces este mausoleo en Agra, India?',
     opciones: ['Palacio de Fatehpur Sikri', 'Templo Dorado', 'Taj Mahal', 'Fuerte Rojo'],
     correcta: 'Taj Mahal',
@@ -171,7 +171,7 @@ const PREGUNTAS = [
   {
     tipo: 'monumento',
     pregunta: '¿Cuál es el nombre de esta estatua que fue obsequio de Francia a los Estados Unidos?',
-    imagen: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/Statue_of_Liberty_7.jpg/600px-Statue_of_Liberty_7.jpg',
+    imagen: 'https://www.prensaescuela.es/wp-content/uploads/2020/10/AF20201028.jpg',
     caption: '¿Cómo se llama esta escultura en Nueva York?',
     opciones: ['Estatua de la Libertad', 'El Pensador', 'Cristo Redentor', 'La Victoria de Samotracia'],
     correcta: 'Estatua de la Libertad',
@@ -179,7 +179,7 @@ const PREGUNTAS = [
   {
     tipo: 'monumento',
     pregunta: '¿Cómo se llama esta estatua de Cristo ubicada sobre el cerro Corcovado en Brasil?',
-    imagen: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Christ_the_Redeemer_-_Cristo_Redentor.jpg/600px-Christ_the_Redeemer_-_Cristo_Redentor.jpg',
+    imagen: 'https://dynamic-media.tacdn.com/media/photo-o/30/33/90/d9/caption.jpg?w=700&h=500&s=1',
     caption: '¿Cuál es el nombre de esta icónica estatua en Río de Janeiro?',
     opciones: ['Cristo de los Andes', 'Cristo Rey', 'Cristo Redentor', 'El Salvador del Mundo'],
     correcta: 'Cristo Redentor',
@@ -187,7 +187,7 @@ const PREGUNTAS = [
   {
     tipo: 'monumento',
     pregunta: '¿Cómo se llama el gran templo budista situado en Camboya, el más grande del mundo?',
-    imagen: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/Angkor_Wat_from_the_air.JPG/600px-Angkor_Wat_from_the_air.JPG',
+    imagen: 'https://viajesacamboyaenespanol.b-cdn.net/wp-content/uploads/2022/04/como-visitar-Angkor-Wat.jpg',
     caption: '¿Reconoces este templo en Camboya?',
     opciones: ['Templo de Borobudur', 'Angkor Wat', 'Templo Dorado', 'Shwedagon'],
     correcta: 'Angkor Wat',
@@ -273,15 +273,22 @@ function renderPregunta() {
   preguntaEl.textContent = p.pregunta;
   captionEl.textContent  = p.caption;
 
-  // Carga de imagen con fade y fallback
-  imagenEl.style.opacity = '0';
-  const tmp = new Image();
-  tmp.onload = () => { imagenEl.src = tmp.src; imagenEl.style.opacity = '1'; };
-  tmp.onerror = () => {
-    imagenEl.src = `https://via.placeholder.com/600x280/0077b6/ffffff?text=${encodeURIComponent(p.caption)}`;
+  // ── SOLUCIÓN: Carga de imagen directa y segura ──
+  imagenEl.style.opacity = '0'; // Ocultar para el efecto de transición
+  
+  // Asignamos la imagen directamente al elemento HTML
+  imagenEl.src = p.imagen;
+
+  // Si la imagen carga correctamente de Wikimedia, la mostramos
+  imagenEl.onload = () => { 
+    imagenEl.style.opacity = '1'; 
+  };
+  
+  // Si la imagen falla (red lenta o bloqueo), usamos el logo de InkluEdu como respaldo local
+  imagenEl.onerror = () => {
+    imagenEl.src = 'img/InkluEdu.svg';
     imagenEl.style.opacity = '1';
   };
-  tmp.src = p.imagen;
 
   setFeedback(' ', 'neutral');
   opcionesEl.innerHTML = '';

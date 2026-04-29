@@ -279,7 +279,7 @@ function renderPregunta() {
   // Asignamos la imagen directamente al elemento HTML
   imagenEl.src = p.imagen;
 
-  // Si la imagen carga correctamente de Wikimedia, la mostramos
+  // Si la imagen carga correctamente, la mostramos
   imagenEl.onload = () => { 
     imagenEl.style.opacity = '1'; 
   };

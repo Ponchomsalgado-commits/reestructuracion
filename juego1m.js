@@ -5,13 +5,24 @@
 
 'use strict';
 
-/* ── Niveles ── */
+/* ── 8 Niveles intercalados y de dificultad progresiva ── */
 const LEVELS = [
-  { op: () => { const a=rnd(2,9),  b=rnd(1,6);  return { q:`${a} + ${b}`,    ans: a+b    }; } },
-  { op: () => { const a=rnd(6,15), b=rnd(1,a-1);return { q:`${a} - ${b}`,    ans: a-b    }; } },
-  { op: () => { const a=rnd(2,5),  b=rnd(2,4);  return { q:`${a} × ${b}`,    ans: a*b    }; } },
-  { op: () => { const b=rnd(2,4),  ans=rnd(2,6);return { q:`${b*ans} ÷ ${b}`,ans         }; } },
-  { op: () => { const a=rnd(3,9),  b=rnd(1,a-1);return { q:`${a*a} − ${b*b}`,ans:a*a-b*b}; } },
+  // Nivel 1: Suma (Fácil)
+  { op: () => { const a=rnd(10,25),  b=rnd(5,15);   return { q:`${a} + ${b}`,    ans: a+b    }; } },
+  // Nivel 2: Resta (Fácil)
+  { op: () => { const a=rnd(20,40),  b=rnd(5,15);   return { q:`${a} - ${b}`,    ans: a-b    }; } },
+  // Nivel 3: Multiplicación (Fácil)
+  { op: () => { const a=rnd(3,6),    b=rnd(2,5);    return { q:`${a} × ${b}`,    ans: a*b    }; } },
+  // Nivel 4: División (Fácil)
+  { op: () => { const b=rnd(2,5),  ans=rnd(3,6);    return { q:`${b*ans} ÷ ${b}`,ans: ans    }; } },
+  // Nivel 5: Suma (Intermedia)
+  { op: () => { const a=rnd(35,80),  b=rnd(20,45);  return { q:`${a} + ${b}`,    ans: a+b    }; } },
+  // Nivel 6: División (Intermedia)
+  { op: () => { const b=rnd(5,9),  ans=rnd(6,11);   return { q:`${b*ans} ÷ ${b}`,ans: ans    }; } },
+  // Nivel 7: Resta (Intermedia)
+  { op: () => { const a=rnd(50,90),  b=rnd(18,45);  return { q:`${a} - ${b}`,    ans: a-b    }; } },
+  // Nivel 8: Multiplicación (Intermedia)
+  { op: () => { const a=rnd(6,10),   b=rnd(5,9);    return { q:`${a} × ${b}`,    ans: a*b    }; } }
 ];
 
 /* ── Colores de hojas (usando variables InkluEdu donde sea posible) ── */
@@ -112,7 +123,8 @@ function startGame() {
 
 /* ══ Mostrar un nivel ══ */
 function showLevel() {
-  if (level >= 5) { showWin(); return; }
+  // Ahora comprobamos contra 8 niveles
+  if (level >= 8) { showWin(); return; }
 
   clearLeaves();
   busy = false;
@@ -140,6 +152,7 @@ function showLevel() {
   options.forEach((opt, i) => {
     const leaf = document.createElement('div');
     leaf.className = 'leaf bounce-in';
+    leaf.dataset.correct = opt.correct; // Etiqueta para saber si es la correcta
     leaf.style.left = (positions[i].x - 50) + 'px';
     leaf.style.top  = (positions[i].y - 30) + 'px';
     leaf.innerHTML  = leafSVG(LEAF_COLORS[i]);
@@ -182,6 +195,12 @@ function onLeafClick(leaf, opt, pos) {
       leaf.classList.add('sink');
       showMsg('¡Ups! Inténtalo de nuevo 😅', true);
 
+      // Resaltar la hoja correcta con esquinas verdes
+      const correctLeaf = leafEls.find(l => l.dataset.correct === 'true');
+      if (correctLeaf) {
+        correctLeaf.classList.add('esquinas-verdes');
+      }
+
       // Splash
       const splashEl = document.createElement('div');
       splashEl.className    = 'splash';
@@ -194,7 +213,9 @@ function onLeafClick(leaf, opt, pos) {
         const W = arena.offsetWidth  || 420;
         const H = arena.offsetHeight || 380;
         placeFrog(W * 0.5 - 18, H * 0.18, true);
-        setTimeout(() => showLevel(), 600);
+        
+        // El color verde se queda a la vista antes de generar la siguiente pregunta
+        setTimeout(() => showLevel(), 1800); 
       }, 900);
     }
   }, 520);
@@ -205,7 +226,7 @@ function showWin() {
   document.getElementById('overlay-emoji').textContent  = '🏆';
   document.getElementById('overlay-titulo').textContent = '¡Ganaste!';
   document.getElementById('overlay-msg').textContent    =
-    `Completaste los 5 niveles con ${score} puntos. ¡Excelente trabajo!`;
+    `Completaste los 8 niveles con ${score} puntos. ¡Excelente trabajo!`;
   overlayEl.style.display = 'flex';
 }
 

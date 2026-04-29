@@ -1,84 +1,146 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tilde Máster: Rompecabezas</title>
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tilde Máster: Rompecabezas</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --blue-dark:   #0077b6;
+            --blue-mid:    #00b4d8;
+            --blue-light:  #90e0ef;
+            --green:       #06d6a0;
+            --green-dark:  #049e78;
+            --yellow:      #ffd166;
+            --yellow-dark: #f4a261;
+            --navy:        #023e8a;
+            --white:       #ffffff;
+            --bg:          #f0faff;
+            --text:        #02415a;
+            --text-light:  #4a7a94;
+            --shadow-sm:   0 2px 8px rgba(0,119,182,0.12);
+            --shadow-md:   0 6px 20px rgba(0,119,182,0.18);
+            --shadow-lg:   0 12px 40px rgba(0,119,182,0.22);
+            --radius-md:   20px;
+            --radius-lg:   28px;
+            --radius-full: 999px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+            padding-top: 70px;
+            padding-bottom: 70px;
+        }
+
+        body::before {
+            content: ''; position: fixed; inset: 0;
+            background: radial-gradient(ellipse at 20% 10%, rgba(0,180,216,0.18) 0%, transparent 50%),
+                        radial-gradient(ellipse at 80% 90%, rgba(6,214,160,0.15) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .blob { position: fixed; border-radius: 50%; pointer-events: none; opacity: 0.12; filter: blur(60px); }
+        .blob-1 { width: 400px; height: 400px; background: var(--blue-mid); top: -100px; left: -100px; }
+        .blob-2 { width: 300px; height: 300px; background: var(--green); bottom: -80px; right: -80px; }
+
+        .screen { display: none; width: 100%; max-width: 600px; flex-direction: column; align-items: center; justify-content: center; z-index: 10; gap: 20px; text-align: center; }
+        .screen.active { display: flex; }
+
+        .site-header { position: fixed; top: 0; left: 0; right: 0; background: linear-gradient(135deg, var(--blue-dark) 0%, var(--blue-mid) 100%); padding: 14px 24px; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 100; box-shadow: 0 4px 20px rgba(0,119,182,0.3); }
+        .site-title { font-family: 'Fredoka One', cursive; font-size: clamp(22px, 5vw, 32px); color: var(--white); letter-spacing: 2px; line-height: 1; text-shadow: 0 2px 8px rgba(0,0,0,0.2); }
+        .site-subtitle { font-size: 12px; font-weight: 700; color: rgba(255,255,255,0.75); letter-spacing: 1px; }
+
+        .logo { font-family: 'Fredoka One', cursive; font-size: clamp(48px, 12vw, 80px); line-height: 1; background: linear-gradient(160deg, var(--blue-dark) 0%, var(--blue-mid) 50%, var(--green) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 4px 0px rgba(0,119,182,0.2)); margin-bottom: 20px; }
+        .logo-sub { font-family: 'Fredoka One', cursive; font-size: clamp(18px, 4vw, 26px); color: var(--text-light); letter-spacing: 2px; margin-top: -8px; margin-bottom: 30px; }
+        
+        .btn-start, .btn-retry { font-family: 'Fredoka One', cursive; font-size: 22px; letter-spacing: 2px; padding: 16px 56px; border: none; border-radius: var(--radius-full); background: linear-gradient(135deg, var(--green) 0%, var(--blue-mid) 100%); color: var(--white); cursor: pointer; box-shadow: 0 6px 0 var(--green-dark), var(--shadow-md); transition: all 0.15s ease; text-transform: uppercase; width: 100%; max-width: 280px; }
+        .btn-start:active, .btn-retry:active { transform: translateY(3px); box-shadow: 0 3px 0 var(--green-dark); }
+
+        .top-progress { display: flex; align-items: center; gap: 15px; width: 100%; background: white; padding: 15px 20px; border-radius: 20px; box-shadow: var(--shadow-sm); border: 2px solid var(--blue-light); margin-bottom: 10px; }
+        .progress-circle { width: 45px; height: 45px; border-radius: 50%; background: var(--blue-mid); color: white; display: flex; align-items: center; justify-content: center; font-family: 'Fredoka One', cursive; font-size: 22px; box-shadow: 0 4px 10px rgba(0,180,216,0.4); flex-shrink: 0; }
+        .progress-track { flex-grow: 1; height: 14px; background: #e0f2fe; border-radius: 10px; overflow: hidden; }
+        .progress-fill { height: 100%; width: 0%; background: linear-gradient(90deg, var(--green), var(--blue-mid)); transition: width 0.4s ease; }
+        .progress-total { font-family: 'Fredoka One', cursive; font-size: 20px; color: var(--blue-dark); }
+
+        .word-card { width: 100%; background: linear-gradient(160deg, var(--blue-dark) 0%, var(--navy) 100%); border-radius: var(--radius-lg); padding: 36px 28px 32px; text-align: center; position: relative; overflow: hidden; box-shadow: var(--shadow-lg); }
+        .rule-badge { position: absolute; top: 14px; right: 14px; font-size: 10px; font-weight: 800; padding: 4px 12px; border-radius: var(--radius-full); background: rgba(255,255,255,0.12); color: var(--white); }
+        .word-display { font-family: 'Fredoka One', cursive; font-size: clamp(42px, 11vw, 76px); color: var(--white); display: flex; align-items: center; justify-content: center; min-height: 88px; }
+
+        .puzzle-area { width: 100%; display: flex; flex-direction: column; gap: 15px; align-items: center; }
+        .drop-grid { display: flex; gap: 10px; justify-content: center; width: 100%; flex-wrap: wrap; }
+        .dropzone { font-family: 'Fredoka One', cursive; flex: 1 1 100px; padding: 20px; border: 3px dashed var(--blue-light); border-radius: var(--radius-md); background: rgba(255,255,255,0.6); color: var(--blue-dark); text-align: center; font-size: clamp(18px, 4.5vw, 24px); transition: all 0.2s; }
+        .dropzone.hover-target { background: var(--blue-light); transform: scale(1.05); }
+        
+        .dropzone.correct { border-color: var(--green); background: rgba(6,214,160,0.15); color: var(--green-dark); border-style: solid; box-shadow: 0 4px 0 var(--green-dark); }
+        .dropzone.wrong { background: #FDF5E6 !important; border-color: #E3C29F !important; color: #A67B5B !important; border-style: solid; box-shadow: 0 4px 0 #E3C29F !important; }
+
+        .no-tilde-zone { flex: 1 1 100%; width: 100%; font-size: clamp(14px, 3.5vw, 18px); }
+
+        .token-dock { width: 100%; height: 80px; background: rgba(0,119,182,0.05); border-radius: var(--radius-md); border: 2px solid rgba(0,119,182,0.1); display: flex; justify-content: center; align-items: center; margin-top: 10px; }
+        .drag-token { width: 65px; height: 65px; background: linear-gradient(135deg, var(--yellow), var(--yellow-dark)); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Fredoka One', cursive; font-size: 40px; color: var(--navy); box-shadow: 0 6px 0 var(--yellow-dark); cursor: grab; touch-action: none; z-index: 999; }
+        
+        .drag-token.dragging { position: fixed; pointer-events: none; z-index: 9999; transform: scale(1.1); margin: 0; }
+
+        .over-title { font-family: 'Fredoka One', cursive; font-size: clamp(32px, 8vw, 52px); color: var(--green-dark); }
+        .result-card { background: var(--white); border: 2px solid var(--blue-light); border-radius: var(--radius-md); padding: 25px; width: 100%; margin-bottom: 20px;}
+        .result-value { font-family: 'Fredoka One', cursive; font-size: 60px; color: var(--blue-dark); }
+    </style>
 </head>
 <body>
 
 <header class="site-header">
-  <div class="site-title">✏️ Tilde Máster: El Desafío</div>
-  <div class="site-subtitle">Arrastra la ficha a la sílaba correcta</div>
+    <div class="site-title"> Tilde Máster: El Desafío</div>
+    <div class="site-subtitle">Acentuación Interactiva</div>
 </header>
 
 <div class="blob blob-1"></div>
 <div class="blob blob-2"></div>
 
 <div id="start-screen" class="screen active">
-  <div class="logo">TILDE MÁSTER</div>
-  <div class="logo-sub">Rompecabezas</div>
-
-  <button class="btn-start" onclick="startGame()">🚀 ¡Jugar!</button>
+    <div class="logo">TILDE MÁSTER</div>
+    <div class="logo-sub">Rompecabezas de Sílabas</div>
+    <button class="btn-start" onclick="startGame()"> ¡Empezar!</button>
 </div>
 
 <div id="game-screen" class="screen">
-  
-  <div class="top-progress">
-    <div class="progress-circle" id="current-q">1</div>
-    <div class="progress-track">
-      <div class="progress-fill" id="progress-fill"></div>
+    <div class="top-progress">
+        <div class="progress-circle" id="current-q">1</div>
+        <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+        <div class="progress-total">10</div>
     </div>
-    <div class="progress-total">10</div>
-  </div>
-  
-  <div class="word-card">
-    <div id="rule-badge" class="rule-badge">AGUDA</div>
-    <div id="word-display" class="word-display"></div>
-  </div>
-
-  <div class="puzzle-area">
-    <div class="drop-grid" id="drop-grid"></div>
-    <div class="dropzone no-tilde-zone" id="no-tilde-zone" data-index="-1">✗ No lleva tilde</div>
-    
-    <div class="token-dock">
-      <div id="drag-token" class="drag-token">´</div>
+    <div class="word-card">
+        <div id="rule-badge" class="rule-badge">---</div>
+        <div id="word-display" class="word-display">CARGANDO...</div>
     </div>
-  </div>
+    <div class="puzzle-area">
+        <div class="drop-grid" id="drop-grid"></div>
+        <div class="dropzone no-tilde-zone" id="no-tilde-zone" data-index="-1">✗ No lleva tilde</div>
+        <div class="token-dock">
+            <div id="drag-token" class="drag-token">´</div>
+        </div>
+    </div>
 </div>
 
 <div id="over-screen" class="screen">
-  <div class="over-title">¡Fin del juego!</div>
-  
-  <div class="result-card">
-    <div class="result-label">Aciertos Totales</div>
-    <div class="result-value" id="final-hits">0/10</div>
-  </div>
-
-  <button class="btn-retry" onclick="startGame()">🔄 Jugar de nuevo</button>
+    <div class="over-title">¡Excelente Trabajo!</div>
+    <div class="result-card">
+        <div style="font-weight: 800; color: var(--text-light); text-transform: uppercase;">Tu Puntuación</div>
+        <div class="result-value" id="final-hits">0/10</div>
+    </div>
+    <button class="btn-retry" onclick="startGame()"> ¿Otra vez?</button>
 </div>
 
-<footer class="site-footer">
-  <div class="footer-left">
-    <div class="footer-logo-wrap">
-      <img src="logo.png" alt="InkluEdu Logo" class="footer-logo">
-      <div class="footer-logo-name">Inklu<span>Edu</span></div>
-    </div>
-    <div class="footer-credits">
-      <div class="footer-credits-title">Proyecto desarrollado por:</div>
-      <div class="footer-credits-names">
-        Caldera Zazueta Brandon Enrique · Chavez Rios Mario Alberto · Cuadras Lopez Ernesto Alonso
-      </div>
-    </div>
-  </div>
-  <div class="footer-right">
-    <div class="footer-asesora-title">Asesora:</div>
-    <div class="footer-asesora-name">Salinas Montoya Gabriela</div>
-  </div>
-</footer>
-
-<script src="script.js"></script>
+<script src="juego1e.js"></script>
 </body>
 </html>
